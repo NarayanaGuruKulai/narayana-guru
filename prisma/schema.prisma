@@ -66,14 +66,16 @@ model VerificationToken {
     @@unique([identifier, token])
 }
 
-model Memberships{
-    id   String    @id @default(cuid())
-    name String
-    address String
-    Date DateTime
-    type MemType
-    photo String
+model Memberships {
+    id        String    @id @default(cuid())
+    name      String
+    address   String?   // Allow null values
+    date      String? // Allow null values
+    type      MemType
+    receiptNo Int
+    photo     String
 }
+
 
 enum MemType {
     ajeeva
@@ -87,6 +89,7 @@ model Ledger {
     TransactionHeader String
     Amount  Int
     ReceiptNumber  Int @unique
+    date DateTime @default(now())
 }
 
 enum TransactionType {
@@ -96,17 +99,17 @@ enum TransactionType {
 
 model  Bhajane {
     id   String    @id @default(cuid())
-    date DateTime
+    date String
     name String
 }
 
 model HallBooking {
     id   String    @id @default(cuid())
-    BookingDate DateTime
+    BookingDate String
     BookingType BookingTypes
     BookingNote String
-    FromTime DateTime
-    ToTime  DateTime
+    FromTime String
+    ToTime  String
 
 }
 
@@ -119,7 +122,7 @@ enum BookingTypes {
 model Gallery {
     id   String    @id @default(cuid())
     imagePath   String
-    uploadDate  DateTime
+    uploadDate  DateTime @default(now())
 }
 
 model CommitteeCore {

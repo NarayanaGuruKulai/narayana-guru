@@ -17,7 +17,19 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
+
   transpilePackages: ["geist"],
+
+  images: {
+    domains: ["utfs.io"], // Allow images from "utfs.io"
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "utfs.io",
+        pathname: "/f/**", // Match all files under "/f/"
+      },
+    ],
+  },
 };
 
 export default config;
