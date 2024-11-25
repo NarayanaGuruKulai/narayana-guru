@@ -14,18 +14,6 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    createdBy   User   @relation(fields: [createdById], references: [id])
-    createdById String
-
-    @@index([name])
-}
-
 // Necessary for Next auth
 model Account {
     id                       String  @id @default(cuid())
@@ -60,9 +48,14 @@ model User {
     email         String?   @unique
     emailVerified DateTime?
     image         String?
+    role Role @default(user)
     accounts      Account[]
     sessions      Session[]
-    posts         Post[]
+}
+
+enum Role {
+  admin
+    user
 }
 
 model VerificationToken {
@@ -71,4 +64,71 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+model Memberships{
+    id   String    @id @default(cuid())
+    name String
+    address String
+    Date DateTime
+    type MemType
+    photo String
+}
+
+enum MemType {
+    ajeeva
+    poshaka
+    mrutha
+}
+
+model Ledger {
+    id   String    @id @default(cuid())
+    TransactionType TransactionType
+    TransactionHeader String
+    Amount  Int
+    ReceiptNumber  Int @unique
+}
+
+enum TransactionType {
+    incoming
+    outgoing
+}
+
+model  Bhajane {
+    id   String    @id @default(cuid())
+    date DateTime
+    name String
+}
+
+model HallBooking {
+    id   String    @id @default(cuid())
+    BookingDate DateTime
+    BookingType BookingTypes
+    BookingNote String
+    FromTime DateTime
+    ToTime  DateTime
+
+}
+
+enum BookingTypes {
+    marriagereceptionengagement
+    lastrites
+    other
+}
+
+model Gallery {
+    id   String    @id @default(cuid())
+    imagePath   String
+    uploadDate  DateTime
+}
+
+model CommitteeCore {
+    id   String    @id @default(cuid())
+    Post    String
+    Name    String
+}
+
+model CommitteeMembers {
+    id   String    @id @default(cuid())
+    Name    String
 }
