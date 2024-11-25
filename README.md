@@ -1,4 +1,4 @@
-# Capture Incridea Repository
+# Narayana Guru Repository
 
 This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with
 
