@@ -9,7 +9,7 @@ import NavLink from "./NavLink";
 
 
 const adminLinks = [
-  { href: "/", label: "MainWebPage"},
+  { href: "/", label: "Mainpage"},
 ];
 
 const userLinks = [
