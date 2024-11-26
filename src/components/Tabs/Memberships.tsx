@@ -180,7 +180,7 @@ const Memberships: React.FC = () => {
                 required
               />
 
-              <label className="block mt-5 mb-2 text-white text-left">Capture (Optional):</label>
+              <label className="block mt-5 mb-2 text-white text-left">Profile Photo (Optional):</label>
               <UploadComponent onUploadComplete={handleUploadComplete} resetUpload={() => setUploadUrl('')} />
 
               <button type="submit" className="p-2 bg-white text-black rounded-xl w-full mt-10">
