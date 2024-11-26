@@ -6,19 +6,21 @@ import toast from 'react-hot-toast';
 
 const Memberships: React.FC = () => {
   const addMember = api.memberships.addMember.useMutation();
+  const deleteMember = api.memberships.deleteMembership.useMutation();
   const { data: members, isLoading: membersLoading, isError: membersError, refetch } = api.memberships.getAllMembers.useQuery();
 
+  const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
+  const [selectedMemberId, setSelectedMemberId] = useState<number | null>(null); // Updated type to string
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [newImage, setNewImage] = useState<string>('');
   const [uploadUrl, setUploadUrl] = useState<string>('');
   const [name, setName] = useState<string>('');
   const [address, setAddress] = useState<string>('');
   const [date, setDate] = useState<string>('');
-  const [type, setType] = useState<'ajeeva' | 'poshaka' | 'mrutha'>('ajeeva'); // Default type set to 'ajeeva'
-  const [receiptNo, setReceiptNo] = useState<number>(1); // Default receipt number set to 1
-
-  const [nameSearch, setNameSearch] = useState<string>(''); // Search by name
-  const [receiptNoSearch, setReceiptNoSearch] = useState<string>(''); // Search by receipt number
+  const [type, setType] = useState<'ajeeva' | 'poshaka' | 'mrutha'>('ajeeva');
+  const [receiptNo, setReceiptNo] = useState<number>();
+  const [nameSearch, setNameSearch] = useState<string>('');
+  const [receiptNoSearch, setReceiptNoSearch] = useState<string>('');
 
   const toastStyle = {
     style: {
@@ -38,6 +40,25 @@ const Memberships: React.FC = () => {
 
   const handlePopupClose = () => {
     setIsPopupOpen(false);
+  };
+
+  const handleDeleteClick = (id: number) => {
+    setSelectedMemberId(id);
+    setIsDeletePopupOpen(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (!selectedMemberId) return;
+
+    try {
+      await deleteMember.mutateAsync({ id: selectedMemberId });
+      toast.success('Member deleted successfully', toastStyle);
+      setSelectedMemberId(null);
+      setIsDeletePopupOpen(false);
+      void refetch();
+    } catch {
+      toast.error('Failed to delete the member', toastStyle);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -78,7 +99,6 @@ const Memberships: React.FC = () => {
     }
   };
 
-  // Filter members based on search criteria
   const filteredMembers = members?.filter((member) => {
     const matchesName = member.name.toLowerCase().includes(nameSearch.toLowerCase());
     const matchesReceiptNo = member.receiptNo.toString().includes(receiptNoSearch);
@@ -97,7 +117,6 @@ const Memberships: React.FC = () => {
           ಸದಸ್ಯರನ್ನು ಸೇರಿಸಿ
         </button>
 
-        {/* Search by Name */}
         <input
           type="text"
           placeholder="ಹೆಸರನ್ನು ಹುಡುಕಿ"
@@ -106,7 +125,6 @@ const Memberships: React.FC = () => {
           className="p-2 border border-gray-300 rounded-full w-60 text-black"
         />
 
-        {/* Search by Receipt Number */}
         <input
           type="text"
           placeholder="ರಶೀದಿ ಸಂಖ್ಯೆಯನ್ನು ಹುಡುಕಿ"
@@ -131,6 +149,7 @@ const Memberships: React.FC = () => {
                 <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">ದಿನಾಂಕ</th>
                 <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">ಸದಸ್ಯತ್ವ ಪ್ರಕಾರ</th>
                 <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">ರಶೀದಿ ಸಂಖ್ಯೆ</th>
+                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">ಅಳಿಸು</th>
               </tr>
             </thead>
             <tbody>
@@ -148,6 +167,14 @@ const Memberships: React.FC = () => {
                     member.type === 'mrutha' ? 'ಮೃತ' : ''}
                   </td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center">{member.receiptNo}</td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center">
+                    <button
+                      onClick={() => handleDeleteClick(member.id)}
+                      className="bg-red-500 text-white px-3 py-1 rounded"
+                    >
+                      ಅಳಿಸು
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -171,7 +198,6 @@ const Memberships: React.FC = () => {
                 className="w-full p-2 rounded-xl text-black"
                 required
               />
-
               <label className="block mt-5 mb-2 text-white text-left">ವಿಳಾಸ:</label>
               <input
                 type="text"
@@ -180,7 +206,6 @@ const Memberships: React.FC = () => {
                 className="w-full p-2 rounded-xl text-black"
                 required
               />
-
               <label className="block mt-5 mb-2 text-white text-left">ದಿನಾಂಕ:</label>
               <input
                 type="date"
@@ -189,7 +214,6 @@ const Memberships: React.FC = () => {
                 className="w-full p-2 rounded-xl text-black"
                 required
               />
-
               <label className="block mt-5 mb-2 text-white text-left">ಸದಸ್ಯತ್ವ ಪ್ರಕಾರ:</label>
               <select
                 value={type}
@@ -197,11 +221,10 @@ const Memberships: React.FC = () => {
                 className="w-full p-2 rounded-xl text-black"
                 required
               >
-                <option value="ajeeva">ಅಜೀವ </option>
-                <option value="poshaka">ಪೋಷಕ </option>
+                <option value="ajeeva">ಅಜೀವ</option>
+                <option value="poshaka">ಪೋಷಕ</option>
                 <option value="mrutha">ಮೃತ</option>
               </select>
-
               <label className="block mt-5 mb-2 text-white text-left">ರಶೀದಿ ಸಂಖ್ಯೆ:</label>
               <input
                 type="number"
@@ -210,14 +233,31 @@ const Memberships: React.FC = () => {
                 className="w-full p-2 rounded-xl text-black"
                 required
               />
-
-              <label className="block mt-5 mb-2 text-white text-left">ಸದಸ್ಯರ ಫೋಟೋ</label>
               <UploadComponent onUploadComplete={handleUploadComplete} resetUpload={() => setUploadUrl('')} />
-
-              <button type="submit" className="w-full bg-blue-600 text-white p-2 my-2 rounded">
-                ಸಮರ್ಪಿಸಿ
+              <button type="submit" className="mt-8 p-3 rounded-2xl text-center bg-blue-500 text-white">
+                ಸೇರ್ಪಡೆ
               </button>
             </form>
+          </div>
+        </div>
+      )}
+
+      {isDeletePopupOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur z-50">
+          <div className="bg-white p-6 rounded shadow-lg text-center">
+            <p className="mb-4">Are you sure you want to delete this member?</p>
+            <button
+              onClick={handleDeleteConfirm}
+              className="bg-red-500 text-white px-4 py-2 rounded mr-2"
+            >
+              Confirm
+            </button>
+            <button
+              onClick={() => setIsDeletePopupOpen(false)}
+              className="bg-gray-300 text-black px-4 py-2 rounded"
+            >
+              Cancel
+            </button>
           </div>
         </div>
       )}
