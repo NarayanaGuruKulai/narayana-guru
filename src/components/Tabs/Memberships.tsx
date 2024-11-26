@@ -17,6 +17,9 @@ const Memberships: React.FC = () => {
   const [type, setType] = useState<'ajeeva' | 'poshaka' | 'mrutha'>('ajeeva'); // Default type set to 'ajeeva'
   const [receiptNo, setReceiptNo] = useState<number>(1); // Default receipt number set to 1
 
+  const [nameSearch, setNameSearch] = useState<string>(''); // Search by name
+  const [receiptNoSearch, setReceiptNoSearch] = useState<string>(''); // Search by receipt number
+
   const toastStyle = {
     style: {
       borderRadius: '10px',
@@ -39,14 +42,12 @@ const Memberships: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Check if all required fields are filled
+
     if (!name || !receiptNo || !type || !address || !date) {
       toast.error('Please fill in all the required fields.', toastStyle);
       return;
     }
 
-    // Image is optional but should be uploaded if selected
     if (!uploadUrl && newImage) {
       toast.error('Select and Upload the Image', toastStyle);
       return;
@@ -58,7 +59,7 @@ const Memberships: React.FC = () => {
         address,
         date,
         type,
-        photo: uploadUrl || '',  // Default empty if no image
+        photo: uploadUrl || '',
         receiptNo,
       });
 
@@ -69,13 +70,20 @@ const Memberships: React.FC = () => {
       setName('');
       setAddress('');
       setDate('');
-      setReceiptNo(1); // Reset receipt number to default
+      setReceiptNo(1);
       void refetch();
       toast.success('Member Added');
-    } catch{
+    } catch {
       toast.error('Member Not Added', toastStyle);
     }
   };
+
+  // Filter members based on search criteria
+  const filteredMembers = members?.filter((member) => {
+    const matchesName = member.name.toLowerCase().includes(nameSearch.toLowerCase());
+    const matchesReceiptNo = member.receiptNo.toString().includes(receiptNoSearch);
+    return matchesName && matchesReceiptNo;
+  });
 
   return (
     <div className="p-4">
@@ -84,22 +92,39 @@ const Memberships: React.FC = () => {
       <div className="mb-4 flex gap-2 flex-wrap">
         <button
           onClick={handleAddEventClick}
-          className="p-2 border border-slate-700 rounded-xl w-44 text-white h-12 bg-black font-BebasNeue"
-        >          
+          className="p-2 border border-slate-700 rounded-full w-44 text-white h-12 bg-black font-BebasNeue"
+        >
           ಸದಸ್ಯರನ್ನು ಸೇರಿಸಿ
         </button>
+
+        {/* Search by Name */}
+        <input
+          type="text"
+          placeholder="ಹೆಸರನ್ನು ಹುಡುಕಿ"
+          value={nameSearch}
+          onChange={(e) => setNameSearch(e.target.value)}
+          className="p-2 border border-gray-300 rounded-full w-60 text-black"
+        />
+
+        {/* Search by Receipt Number */}
+        <input
+          type="text"
+          placeholder="ರಶೀದಿ ಸಂಖ್ಯೆಯನ್ನು ಹುಡುಕಿ"
+          value={receiptNoSearch}
+          onChange={(e) => setReceiptNoSearch(e.target.value)}
+          className="p-2 border border-gray-300 rounded-full w-60 text-black"
+        />
       </div>
 
       {membersLoading ? (
-        <div>
-          ಲೋಡ್ ಆಗುತ್ತಿದೆ...</div>
+        <div>ಲೋಡ್ ಆಗುತ್ತಿದೆ...</div>
       ) : membersError ? (
         <div>ಸದಸ್ಯರನ್ನು ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ. ದಯವಿಟ್ಟು ನಂತರ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.</div>
       ) : (
         <div className="overflow-x-auto">
           <table className="min-w-full border border-gray-300">
             <thead className="bg-white">
-              <tr className='hover:bg-gray-50 hover:text-black'>
+              <tr className="hover:bg-gray-50 hover:text-black">
                 <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">ಫೋಟೋ</th>
                 <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">ಹೆಸರು</th>
                 <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">ವಿಳಾಸ</th>
@@ -109,20 +134,19 @@ const Memberships: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {members?.map((member) => (
+              {filteredMembers?.map((member) => (
                 <tr key={member.id} className="hover:bg-gray-50 hover:text-black">
                   <td className="py-2 px-4 border-b border-slate-700 text-center flex justify-center">
-                    <Image src={member.photo} alt={member.name} width={32} height={32} className="h-32 w-32 object-cover" />
+                    <Image src={member.photo} alt={member.name} width={25} height={25} className="h-28 w-28 object-cover" />
                   </td>
-                  <td className="py-2 px-4 border-b border-slate-700 text-center">{member.name}</td>
-                  <td className="py-2 px-4 border-b border-slate-700 text-center">{member.address}</td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center text-wrap">{member.name}</td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center text-wrap">{member.address}</td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center">{member.date}</td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center">
                     {member.type === 'ajeeva' ? 'ಅಜೀವ' :
                     member.type === 'poshaka' ? 'ಪೋಷಕ' :
                     member.type === 'mrutha' ? 'ಮೃತ' : ''}
                   </td>
-
                   <td className="py-2 px-4 border-b border-slate-700 text-center">{member.receiptNo}</td>
                 </tr>
               ))}
@@ -190,8 +214,8 @@ const Memberships: React.FC = () => {
               <label className="block mt-5 mb-2 text-white text-left">ಸದಸ್ಯರ ಫೋಟೋ</label>
               <UploadComponent onUploadComplete={handleUploadComplete} resetUpload={() => setUploadUrl('')} />
 
-              <button type="submit"  className="w-full bg-blue-600 text-white p-2 my-2 rounded ">
-              ಸಮರ್ಪಿಸಿ
+              <button type="submit" className="w-full bg-blue-600 text-white p-2 my-2 rounded">
+                ಸಮರ್ಪಿಸಿ
               </button>
             </form>
           </div>

@@ -40,7 +40,7 @@ export const membershipRouter = createTRPCRouter({
   deleteMembership: protectedProcedure
     .input(
       z.object({
-        id: z.string().min(1, "Member ID is required"),
+        id: z.number().min(1, "Member ID is required"),
       })
     )
     .mutation(async ({ ctx, input }) => {
