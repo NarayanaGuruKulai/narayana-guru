@@ -3,6 +3,7 @@ import UploadComponent from '../UploadComponent';
 import { api } from '~/utils/api';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
+import { MdDelete } from 'react-icons/md';
 
 const Memberships: React.FC = () => {
   const addMember = api.memberships.addMember.useMutation();
@@ -172,7 +173,7 @@ const Memberships: React.FC = () => {
                       onClick={() => handleDeleteClick(member.id)}
                       className="bg-red-500 text-white px-3 py-1 rounded"
                     >
-                      ಅಳಿಸು
+                      <MdDelete/>
                     </button>
                   </td>
                 </tr>
@@ -186,7 +187,7 @@ const Memberships: React.FC = () => {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur z-50">
           <div className="bg-black p-10 rounded-3xl shadow-lg relative text-center w-96">
             <h2 className="text-2xl font-bold text-white mb-4">ಸದಸ್ಯರನ್ನು ಸೇರಿಸಿ</h2>
-            <button onClick={handlePopupClose} className="absolute top-6 right-6 text-white p-5">
+            <button onClick={handlePopupClose} className="absolute top-4 right-6 text-2xl text-white p-5">
               &times;
             </button>
             <form onSubmit={handleSubmit}>

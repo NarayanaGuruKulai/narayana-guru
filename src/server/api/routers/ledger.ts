@@ -48,12 +48,14 @@ export const ledgerRouter = createTRPCRouter({
   .input(
     z.object({
       type: z.enum(["incoming", "outgoing"]),
+      limit: z.number().min(1).default(10),
     })
   )
   .query(async ({ ctx, input }) => {
     return await ctx.db.ledger.findMany({
       where: { TransactionType: input.type },
-      orderBy: { date: "asc" },
+      orderBy: { date: "desc" },
+      take: input.limit,
     });
   }),
 

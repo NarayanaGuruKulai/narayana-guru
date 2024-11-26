@@ -65,4 +65,23 @@ export const committeeRouter = createTRPCRouter({
       });
       return { message: 'Committee Member deleted successfully' };
     }),
+
+    updateCommitteeCore: protectedProcedure
+    .input(
+      z.object({
+        id: z.number().min(1, 'ID is required'),
+        Post: z.string().min(1, 'Post is required'),
+        Name: z.string().min(1, 'Name is required'),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const updatedCommitteeCore = await ctx.db.committeeCore.update({
+        where: { id: input.id },
+        data: {
+          Post: input.Post,
+          Name: input.Name,
+        },
+      });
+      return updatedCommitteeCore;
+    }),
 });

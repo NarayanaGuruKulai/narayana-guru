@@ -3,11 +3,15 @@ import UploadComponent from '../UploadComponent';
 import { api } from '~/utils/api';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
+import { MdDelete } from 'react-icons/md';
 
 const Gallery: React.FC = () => {
   const addImage = api.gallery.addImage.useMutation();
-  const { data: gallery, isLoading: galleryLoading, isError: galleryError, refetch } = api.gallery.getAllGallery.useQuery();
-
+  const deleteImage = api.gallery.deleteImage.useMutation();
+  const [limit, setLimit] = useState(10); 
+  const { data: gallery, isLoading: galleryLoading, isError: galleryError, refetch } = api.gallery.getAllGalleryList.useQuery({limit});
+  const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
+  const [selectedMemberId, setSelectedMemberId] = useState<number | null>(null); // Updated type to string
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [uploadUrl, setUploadUrl] = useState<string>(''); // Ensure it's always a string
   const [uploadDate] = useState<string>(new Date().toISOString().split('T')[0] ?? '');
@@ -27,6 +31,9 @@ const Gallery: React.FC = () => {
       toast.error('Failed to upload image. Please try again.', toastStyle);
     }
   };
+  const handleShowMore = () => {
+    setLimit((prev) => prev + 10); // Increase limit by 20
+  };
 
   const handleAddImageClick = () => {
     setIsPopupOpen(true);
@@ -37,6 +44,24 @@ const Gallery: React.FC = () => {
     setUploadUrl(''); // Reset the upload URL when closing
   };
 
+  const handleDeleteClick = (id: number) => {
+    setSelectedMemberId(id);
+    setIsDeletePopupOpen(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (!selectedMemberId) return;
+
+    try {
+      await deleteImage.mutateAsync({ id: selectedMemberId });
+      toast.success('Image deleted successfully', toastStyle);
+      setSelectedMemberId(null);
+      setIsDeletePopupOpen(false);
+      void refetch();
+    } catch {
+      toast.error('Failed to delete the Image', toastStyle);
+    }
+  };
   // Form submit for adding image to the gallery
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -74,6 +99,12 @@ const Gallery: React.FC = () => {
         >
           ಗ್ಯಾಲರಿ ಸೇರಿಸಿ
         </button>
+        <button
+          onClick={handleShowMore}
+          className="p-2 border border-slate-700 rounded-xl w-44 text-white h-12 bg-black font-BebasNeue"
+        >
+          ಹೆಚ್ಚು ತೋರಿಸು
+        </button>
       </div>
 
       {galleryLoading ? (
@@ -87,6 +118,7 @@ const Gallery: React.FC = () => {
               <tr>
                 <th className="text-black border py-2 px-4 border-b border-slate-700 text-center">ಫೋಟೋ</th>
                 <th className="text-black border py-2 px-4 border-b border-slate-700 text-center">ಅಪ್ಲೋಡ್ ದಿನಾಂಕ</th>
+                <th className="text-black border py-2 px-4 border-b border-slate-700 text-center">ಅಳಿಸಿ</th>
               </tr>
             </thead>
             <tbody>
@@ -97,6 +129,14 @@ const Gallery: React.FC = () => {
                   </td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center">
                     {new Date(item.uploadDate).toLocaleDateString()} {/* Convert to string */}
+                  </td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center">
+                    <button
+                      onClick={() => handleDeleteClick(item.id)}
+                      className="bg-red-500 text-white px-3 py-1 rounded"
+                    >
+                      <MdDelete/>
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -109,7 +149,7 @@ const Gallery: React.FC = () => {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur z-50">
           <div className="bg-black p-10 rounded-3xl shadow-lg relative text-center w-96">
             <h2 className="text-2xl font-bold text-white mb-4">ಗ್ಯಾಲರಿ ಸೇರಿಸಿ</h2>
-            <button onClick={handlePopupClose} className="absolute top-6 right-6 text-white p-5" aria-label="Close popup">
+            <button onClick={handlePopupClose} className="absolute top-4 right-6 text-white text-2xl p-5" aria-label="Close popup">
               &times;
             </button>
             <form onSubmit={handleSubmit}>
@@ -120,6 +160,26 @@ const Gallery: React.FC = () => {
               ಸಮರ್ಪಿಸಿ
               </button>
             </form>
+          </div>
+        </div>
+      )}
+
+{isDeletePopupOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur z-50">
+          <div className="bg-black p-6 rounded shadow-lg text-center">
+            <p className="mb-4">ನೀವು ಅತಿಕ್ರಮಿಸಲು ಇಚ್ಛಿಸುತ್ತಿದ್ದೀರಾ?</p>
+            <button
+              onClick={handleDeleteConfirm}
+              className="bg-red-500 text-white px-4 py-2 rounded mr-2"
+            >
+              ಹೌದು
+            </button>
+            <button
+              onClick={() => setIsDeletePopupOpen(false)}
+              className="bg-gray-300 text-black px-4 py-2 rounded"
+            >
+              ಇಲ್ಲ
+            </button>
           </div>
         </div>
       )}

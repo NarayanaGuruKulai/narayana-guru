@@ -31,6 +31,20 @@ export const galleryRouter = createTRPCRouter({
     return gallery ?? [];
   }),
 
+  getAllGalleryList: protectedProcedure
+  .input(
+    z.object({
+      limit: z.number().min(1).default(10),
+    })
+  )
+  .query(async ({ ctx, input }) => {
+    return await ctx.db.gallery.findMany({
+      orderBy: { uploadDate: "desc" },
+      take: input.limit,
+    });
+  }),
+
+
   // Optional: Delete an image from the gallery
   deleteImage: protectedProcedure
     .input(

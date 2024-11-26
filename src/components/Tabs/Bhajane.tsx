@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
-
+import { MdDelete } from "react-icons/md";
 const Bhajane: React.FC = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [name, setName] = useState<string>("");
   const [date, setDate] = useState<string>("");
-  const [limit, setLimit] = useState(20); // Initial limit for entries
+  const [limit, setLimit] = useState(10); // Initial limit for entries
   const  deleteBhajane = api.bhajane.deleteBhajane.useMutation();
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
   const [selectedBhajaneId, setSelectedBhajaneId] = useState<number | null>(null);
@@ -30,7 +30,7 @@ const Bhajane: React.FC = () => {
   };
 
   const handleShowMore = () => {
-    setLimit((prev) => prev + 20); // Increase limit by 20
+    setLimit((prev) => prev + 10); // Increase limit by 20
   };
 
   
@@ -114,7 +114,7 @@ const Bhajane: React.FC = () => {
                       onClick={() => handleDeleteClick(entry.id)}
                       className="bg-red-500 text-white px-3 py-1 rounded"
                     >
-                      ಅಳಿಸು
+                      <MdDelete/>
                     </button>
                   </td>
                 </tr>
@@ -130,7 +130,7 @@ const Bhajane: React.FC = () => {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur z-50">
           <div className="bg-black p-6 rounded-3xl shadow-lg relative w-96">
             <h2 className="text-2xl font-bold text-white mb-4 text-center">ಭಜನೆ ಸೇರಿಸಿ</h2>
-            <button onClick={handlePopupClose} className="absolute top-6 right-8 text-white text-xl">
+            <button onClick={handlePopupClose} className="absolute top-6 right-8 text-white text-2xl">
               &times;
             </button>
             <form onSubmit={handleSubmit}>
@@ -139,7 +139,7 @@ const Bhajane: React.FC = () => {
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full mb-4 p-2 border rounded"
+                className="w-full mb-4 p-2 text-black border rounded"
                 required
               />
 
@@ -148,7 +148,7 @@ const Bhajane: React.FC = () => {
                 type="date"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
-                className="w-full mb-4 p-2 border rounded"
+                className="w-full mb-4 p-2 text-black border rounded"
                 required
               />
 

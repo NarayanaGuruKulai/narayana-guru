@@ -4,16 +4,25 @@ import toast from "react-hot-toast";
 import { MdDelete } from "react-icons/md";
 const Ledger: React.FC = () => {
   const addLedger = api.ledger.addLedger.useMutation();
-  const { data: incomingLedger, refetch: refetchIncoming } =
-    api.ledger.getAllLedger.useQuery({ type: "incoming" });
-  const { data: outgoingLedger, refetch: refetchOutgoing } =
-    api.ledger.getAllLedger.useQuery({ type: "outgoing" });
+  const [limit, setLimit] = useState(10); 
+// Fetch incoming ledger entries with dynamic limit
+const { data: incomingLedger, refetch: refetchIncoming } = api.ledger.getAllLedger.useQuery({
+  type: "incoming",
+  limit,
+});
+
+// Fetch outgoing ledger entries with dynamic limit
+const { data: outgoingLedger, refetch: refetchOutgoing } = api.ledger.getAllLedger.useQuery({
+  type: "outgoing",
+  limit,
+});
     const  deleteLedger = api.ledger.deleteLedger.useMutation();
     const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
-    const [selectedLedgerId, setSelectedLedgerId] = useState<number | null>(null);
+    const [selectedLedgerId, setSelectedLedgerId] = useState<number | null>(null);   
 
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [date, setDate] = useState<string>("");
+
   const [transactionType, setTransactionType] = useState<"incoming" | "outgoing">("incoming");
   const [transactionHeader, setTransactionHeader] = useState<string>("");
   const [amount, setAmount] = useState<number>(0);
@@ -35,6 +44,11 @@ const Ledger: React.FC = () => {
     setSelectedLedgerId(id);
     setIsDeletePopupOpen(true);
   };
+
+  const handleShowMore = () => {
+    setLimit((prev) => prev + 10); // Increase limit by 20
+  };
+
 
   const handleDeleteConfirm = async () => {
     if (!selectedLedgerId) return;
@@ -127,6 +141,12 @@ const Ledger: React.FC = () => {
       >
         ಲೆಡ್ಜರ್ ಎಂಟ್ರಿ ಸೇರಿಸಿ
       </button>
+      <button
+          onClick={handleShowMore}
+          className="p-2 border border-slate-700 rounded-xl w-44 text-white h-12 bg-black font-BebasNeue"
+        >
+          ಹೆಚ್ಚು ತೋರಿಸು
+        </button>
 
       <div className="flex gap-4">
         {/* Incoming Table */}
@@ -203,7 +223,7 @@ const Ledger: React.FC = () => {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-black p-10 rounded-3xl shadow-lg relative text-center w-96">
             <h2 className="text-xl font-semibold mb-4">ಲೆಡ್ಜರ್ ಎಂಟ್ರಿ ಸೇರಿಸಿ</h2>
-            <button onClick={handlePopupClose} className="absolute top-6 right-6 text-white p-5">
+            <button onClick={handlePopupClose} className="absolute top-4 right-6 text-2xl text-white p-5">
               &times;
             </button>
             <form onSubmit={handleSubmit}>

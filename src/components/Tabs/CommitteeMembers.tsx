@@ -23,6 +23,7 @@ const CommitteeMembers: React.FC = () => {
 
   const handlePopupClose = () => {
     setIsPopupOpen(false);
+    setName('');
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -82,14 +83,14 @@ const CommitteeMembers: React.FC = () => {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur z-50">
           <div className="bg-black p-10 rounded-3xl shadow-lg relative text-center w-96">
             <h2 className="text-2xl font-bold text-white mb-4">ಸದಸ್ಯರನ್ನು ಸೇರಿಸಿ</h2>
-            <button onClick={handlePopupClose} className="absolute top-6 right-6 text-white p-5">&times;</button>
+            <button onClick={handlePopupClose} className="absolute top-4 right-6 text-white text-2xl p-5">&times;</button>
             <form onSubmit={handleSubmit}>
               <label className="block mt-5 mb-2 text-white text-left">ಹೆಸರು:</label>
               <input 
                 type="text" 
                 value={name} 
                 onChange={(e) => setName(e.target.value)} 
-                className="block w-full mb-4 p-2 rounded-md"
+                className="block w-full mb-4 p-2 rounded-md text-black"
                 required
               />
               <button type="submit"  className="w-full bg-blue-600 text-white p-2 my-2 rounded ">

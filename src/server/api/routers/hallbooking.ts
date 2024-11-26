@@ -24,9 +24,18 @@ export const hallBookingRouter = createTRPCRouter({
       });
       return hallBooking;
     }),
-  getAllHallBookings: protectedProcedure.query(async ({ ctx }) => {
-    return ctx.db.hallBooking.findMany();
-  }),
+    getAllHallBookings: protectedProcedure
+    .input(
+      z.object({
+        limit: z.number().min(1).default(10),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      return await ctx.db.hallBooking.findMany({
+        orderBy: { BookingDate: "desc" },
+        take: input.limit,
+      });
+    }),
 
   
   deleteHallBooking: protectedProcedure
@@ -36,7 +45,7 @@ export const hallBookingRouter = createTRPCRouter({
     })
   )
   .mutation(async ({ ctx, input }) => {
-    await ctx.db.memberships.delete({
+    await ctx.db.hallBooking.delete({
       where: { id: input.id },
     });
 

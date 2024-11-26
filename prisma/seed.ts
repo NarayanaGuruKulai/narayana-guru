@@ -41,7 +41,7 @@ async function main() {
   try {
     // Seeding Memberships
     await prisma.memberships.createMany({
-      data: Array.from({ length: 20 }, (_, index) => ({
+      data: Array.from({ length: 50 }, (_, index) => ({
         name: `Member ${index + 1}`,
         address: `Address ${index + 1}`,
         date: `2024-11-26`,
@@ -51,31 +51,39 @@ async function main() {
       })),
     });
 
-    // Seeding Ledger
-    await prisma.ledger.createMany({
-      data: Array.from({ length: 20 }, (_, index) => ({
-        TransactionType: index % 2 === 0 ? "incoming" : "outgoing",
-        TransactionHeader:
-          index % 2 === 0
-            ? incomingOptions[index % incomingOptions.length] ?? "Default Value"
-            : outgoingOptions[index % outgoingOptions.length] ?? "Default Value",
-        Amount: (index + 1) * 100,
-        ReceiptNumber: 2000 + index,
-        date: `2024-11-${index + 1}`,
-      })),
-    });
+// Seeding Ledger
+await prisma.ledger.createMany({
+  data: Array.from({ length: 50 }, (_, index) => {
+    const day = (index + 1).toString().padStart(2, '0'); // Ensures day has two digits
+    return {
+      TransactionType: index % 2 === 0 ? "incoming" : "outgoing",
+      TransactionHeader:
+        index % 2 === 0
+          ? incomingOptions[index % incomingOptions.length] ?? "Default Value"
+          : outgoingOptions[index % outgoingOptions.length] ?? "Default Value",
+      Amount: (index + 1) * 100,
+      ReceiptNumber: 2000 + index,
+      date: `2024-11-${day}`, // Includes padded day
+    };
+  }),
+});
 
-    // Seeding Bhajane
-    await prisma.bhajane.createMany({
-      data: Array.from({ length: 20 }, (_, index) => ({
-        date: `2024-11-${index + 1}`,
-        name: `Bhajan ${index + 1}`,
-      })),
-    });
+
+// Seeding Bhajane
+await prisma.bhajane.createMany({
+  data: Array.from({ length: 50 }, (_, index) => {
+    const day = (index + 1).toString().padStart(2, '0'); // Ensures day has two digits
+    return {
+      date: `2024-11-${day}`, // Includes padded day
+      name: `Bhajan ${index + 1}`,
+    };
+  }),
+});
+
 
     // Seeding HallBooking
     await prisma.hallBooking.createMany({
-      data: Array.from({ length: 20 }, (_, index) => ({
+      data: Array.from({ length: 50 }, (_, index) => ({
         BookingDate: `2024-12-${index + 1}`,
         BookingType:
           index % 3 === 0
@@ -91,7 +99,7 @@ async function main() {
 
     // Seeding Gallery
     await prisma.gallery.createMany({
-      data: Array.from({ length: 20 }, (_,) => ({
+      data: Array.from({ length: 50 }, (_,) => ({
         imagePath: `https://utfs.io/f/SVkywvr9y613jkgmVVBN8aJPgDbCAkQ3VmIfG9eUXsF2coMS`,
         uploadDate: new Date(),
       })),
@@ -99,7 +107,7 @@ async function main() {
 
     // Seeding CommitteeCore
     await prisma.committeeCore.createMany({
-      data: Array.from({ length: 20 }, (_, index) => ({
+      data: Array.from({ length: 50 }, (_, index) => ({
         Post: `Post ${index + 1}`,
         Name: `Core Member ${index + 1}`,
       })),
@@ -107,7 +115,7 @@ async function main() {
 
     // Seeding CommitteeMembers
     await prisma.committeeMembers.createMany({
-      data: Array.from({ length: 20 }, (_, index) => ({
+      data: Array.from({ length: 50 }, (_, index) => ({
         Name: `Committee Member ${index + 1}`,
       })),
     });
