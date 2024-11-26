@@ -244,7 +244,7 @@ const Memberships: React.FC = () => {
 
       {isDeletePopupOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur z-50">
-          <div className="bg-white p-6 rounded shadow-lg text-center">
+          <div className="bg-black p-6 rounded shadow-lg text-center">
             <p className="mb-4">Are you sure you want to delete this member?</p>
             <button
               onClick={handleDeleteConfirm}
