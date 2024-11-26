@@ -9,15 +9,15 @@ import NavLink from "./NavLink";
 
 
 const adminLinks = [
-  { href: "/", label: "Mainpage"},
+  { href: "/", label: "ಹೋಮ್ ಪೇಜ್"},
 ];
 
 const userLinks = [
-  { href: "/", label: "Home"   },
-  { href: "/bookings", label: "Bookings"   },
-  { href: "/gallery", label: "Gallery"   },
-  { href: "/committee", label: "Committee",  },
-  { href: "/about", label: "About"  },
+  { href: "/", label: "ಹೋಮ್ ಪೇಜ್"   },
+  { href: "/bookings", label: "ಬುಕಿಂಗ್"   },
+  { href: "/gallery", label: "ಗ್ಯಾಲರಿ"   },
+  { href: "/committee", label: "ಸಮಿತಿ",  },
+  { href: "/about", label: "ಮಾಹಿತಿ"  },
 ];
 
 const Header: FC = () => {
@@ -98,7 +98,7 @@ const Header: FC = () => {
               onClick={() => signOut()}
               className="text-white text-xl flex items-center gap-3"
             >
-            <span className=" relative top-0.5">Logout</span>
+            <span className=" relative top-0.5">ಲಾಗ್ ಔಟ್</span>
             </button>
           )}
         </nav>
@@ -184,7 +184,7 @@ const Header: FC = () => {
               onClick={() => signOut()}
               className="text-white text-xl flex items-center gap-3"
             >
-              Logout
+              ಲಾಗ್ ಔಟ್
             </button>
           )}
         </div>
