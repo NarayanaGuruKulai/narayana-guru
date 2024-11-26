@@ -48,7 +48,7 @@ export const committeeRouter = createTRPCRouter({
 
   // Delete Committee Core
   deleteCommitteeCore: protectedProcedure
-    .input(z.object({ id: z.string().min(1, 'ID is required') }))
+    .input(z.object({ id: z.number().min(1, 'ID is required') }))
     .mutation(async ({ ctx, input }) => {
       await ctx.db.committeeCore.delete({
         where: { id: input.id },
@@ -58,7 +58,7 @@ export const committeeRouter = createTRPCRouter({
 
   // Delete Committee Member
   deleteCommitteeMember: protectedProcedure
-    .input(z.object({ id: z.string().min(1, 'ID is required') }))
+    .input(z.object({ id: z.number().min(1, 'ID is required') }))
     .mutation(async ({ ctx, input }) => {
       await ctx.db.committeeMembers.delete({
         where: { id: input.id },

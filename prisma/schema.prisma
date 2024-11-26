@@ -67,7 +67,7 @@ model VerificationToken {
 }
 
 model Memberships {
-    id        String    @id @default(cuid())
+    id        Int      @id @default(autoincrement()) 
     name      String
     address   String?   // Allow null values
     date      String? // Allow null values
@@ -84,7 +84,7 @@ enum MemType {
 }
 
 model Ledger {
-    id   String    @id @default(cuid())
+    id   Int      @id @default(autoincrement()) 
     TransactionType TransactionType
     TransactionHeader String
     Amount  Int
@@ -98,13 +98,13 @@ enum TransactionType {
 }
 
 model  Bhajane {
-    id   String    @id @default(cuid())
+    id   Int      @id @default(autoincrement()) 
     date String
     name String
 }
 
 model HallBooking {
-    id   String    @id @default(cuid())
+    id   Int      @id @default(autoincrement()) 
     BookingDate String
     BookingType BookingTypes
     BookingNote String
@@ -120,18 +120,18 @@ enum BookingTypes {
 }
 
 model Gallery {
-    id   String    @id @default(cuid())
+    id   Int      @id @default(autoincrement()) 
     imagePath   String
     uploadDate  DateTime @default(now())
 }
 
 model CommitteeCore {
-    id   String    @id @default(cuid())
+    id   Int      @id @default(autoincrement()) 
     Post    String
     Name    String
 }
 
 model CommitteeMembers {
-    id   String    @id @default(cuid())
+    id   Int      @id @default(autoincrement()) 
     Name    String
 }

@@ -32,7 +32,7 @@ export const hallBookingRouter = createTRPCRouter({
   deleteHallBooking: protectedProcedure
   .input(
     z.object({
-      id: z.string().min(1, "Booking ID is required"),
+      id: z.number().min(1, "Booking ID is required"),
     })
   )
   .mutation(async ({ ctx, input }) => {

@@ -66,8 +66,7 @@ const Gallery: React.FC = () => {
 
   return (
     <div className="p-4">
-      <h1 className="flex justify-center text-6xl font-Hunters mb-8 py-5 text-center">Gallery Management</h1>
-
+      <h2 className="flex justify-center text-3xl text-bold mb-8 py-5 text-center">ಗ್ಯಾಲರಿ ನಿರ್ವಹಣೆ</h2>
       <div className="mb-4 flex gap-2 flex-wrap">
         <button
           onClick={handleAddImageClick}

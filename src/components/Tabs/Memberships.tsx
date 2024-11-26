@@ -79,31 +79,33 @@ const Memberships: React.FC = () => {
 
   return (
     <div className="p-4">
-      <h1 className="flex justify-center text-6xl font-Hunters mb-8 py-5 text-center">Members Management</h1>
+      <h2 className="flex justify-center text-3xl text-bold mb-8 py-5 text-center">ಸದಸ್ಯತ್ವ ನಿರ್ವಹಣೆ</h2>
 
       <div className="mb-4 flex gap-2 flex-wrap">
         <button
           onClick={handleAddEventClick}
-          className="p-2 border border-slate-700 rounded-xl w-32 text-white h-12 bg-black font-BebasNeue"
-        >
-          Add Member
+          className="p-2 border border-slate-700 rounded-xl w-44 text-white h-12 bg-black font-BebasNeue"
+        >          
+          ಸದಸ್ಯರನ್ನು ಸೇರಿಸಿ
         </button>
       </div>
 
       {membersLoading ? (
-        <div>Loading...</div>
+        <div>
+          ಲೋಡ್ ಆಗುತ್ತಿದೆ...</div>
       ) : membersError ? (
-        <div>Error loading members. Please try again later.</div>
+        <div>ಸದಸ್ಯರನ್ನು ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ. ದಯವಿಟ್ಟು ನಂತರ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.</div>
       ) : (
         <div className="overflow-x-auto">
           <table className="min-w-full border border-gray-300 bg-black">
             <thead className="bg-white">
               <tr>
-                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Photo</th>
-                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Name</th>
-                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Address</th>
-                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Date</th>
-                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">Type</th>
+                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">ಫೋಟೋ</th>
+                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">ಹೆಸರು</th>
+                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">ವಿಳಾಸ</th>
+                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">ದಿನಾಂಕ</th>
+                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">ಸದಸ್ಯತ್ವ ಪ್ರಕಾರ</th>
+                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">ರಶೀದಿ ಸಂಖ್ಯೆ</th>
               </tr>
             </thead>
             <tbody>
@@ -115,7 +117,13 @@ const Memberships: React.FC = () => {
                   <td className="py-2 px-4 border-b border-slate-700 text-center">{member.name}</td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center">{member.address}</td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center">{member.date}</td>
-                  <td className="py-2 px-4 border-b border-slate-700 text-center">{member.type}</td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center">
+                    {member.type === 'ajeeva' ? 'ಅಜೀವ' :
+                    member.type === 'poshaka' ? 'ಪೋಷಕ' :
+                    member.type === 'mrutha' ? 'ಮೃತ' : ''}
+                  </td>
+
+                  <td className="py-2 px-4 border-b border-slate-700 text-center">{member.receiptNo}</td>
                 </tr>
               ))}
             </tbody>
@@ -126,13 +134,12 @@ const Memberships: React.FC = () => {
       {isPopupOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur z-50">
           <div className="bg-black p-10 rounded-3xl shadow-lg relative text-center w-96">
-            <h2 className="text-2xl font-bold text-white mb-4">Add Member</h2>
+            <h2 className="text-2xl font-bold text-white mb-4">ಸದಸ್ಯರನ್ನು ಸೇರಿಸಿ</h2>
             <button onClick={handlePopupClose} className="absolute top-6 right-6 text-white p-5">
               &times;
             </button>
             <form onSubmit={handleSubmit}>
-            <label className="block mt-5 mb-2 text-white text-left">Profile Photo:</label>
-              <label className="block mt-5 mb-2 text-white text-left">Name:</label>
+              <label className="block mt-5 mb-2 text-white text-left">ಹೆಸರು:</label>
               <input
                 type="text"
                 value={name}
@@ -141,7 +148,7 @@ const Memberships: React.FC = () => {
                 required
               />
 
-              <label className="block mt-5 mb-2 text-white text-left">Address:</label>
+              <label className="block mt-5 mb-2 text-white text-left">ವಿಳಾಸ:</label>
               <input
                 type="text"
                 value={address}
@@ -150,7 +157,7 @@ const Memberships: React.FC = () => {
                 required
               />
 
-              <label className="block mt-5 mb-2 text-white text-left">Date:</label>
+              <label className="block mt-5 mb-2 text-white text-left">ದಿನಾಂಕ:</label>
               <input
                 type="date"
                 value={date}
@@ -159,19 +166,19 @@ const Memberships: React.FC = () => {
                 required
               />
 
-              <label className="block mt-5 mb-2 text-white text-left">Type:</label>
+              <label className="block mt-5 mb-2 text-white text-left">ಸದಸ್ಯತ್ವ ಪ್ರಕಾರ:</label>
               <select
                 value={type}
                 onChange={(e) => setType(e.target.value as 'ajeeva' | 'poshaka' | 'mrutha')}
                 className="w-full p-2 rounded-xl text-black"
                 required
               >
-                <option value="ajeeva">Ajeeva</option>
-                <option value="poshaka">Poshaka</option>
-                <option value="mrutha">Mrutha</option>
+                <option value="ajeeva">ಅಜೀವ </option>
+                <option value="poshaka">ಪೋಷಕ </option>
+                <option value="mrutha">ಮೃತ</option>
               </select>
 
-              <label className="block mt-5 mb-2 text-white text-left">Receipt Number:</label>
+              <label className="block mt-5 mb-2 text-white text-left">ರಶೀದಿ ಸಂಖ್ಯೆ:</label>
               <input
                 type="number"
                 value={receiptNo}
@@ -180,11 +187,11 @@ const Memberships: React.FC = () => {
                 required
               />
 
-              <label className="block mt-5 mb-2 text-white text-left">Profile Photo (Optional):</label>
+              <label className="block mt-5 mb-2 text-white text-left">ಸದಸ್ಯರ ಫೋಟೋ</label>
               <UploadComponent onUploadComplete={handleUploadComplete} resetUpload={() => setUploadUrl('')} />
 
               <button type="submit" className="p-2 bg-white text-black rounded-xl w-full mt-10">
-                Submit
+              ಸಮರ್ಪಿಸಿ
               </button>
             </form>
           </div>

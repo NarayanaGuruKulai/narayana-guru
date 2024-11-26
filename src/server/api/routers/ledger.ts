@@ -32,7 +32,7 @@ export const ledgerRouter = createTRPCRouter({
   deleteLedger: protectedProcedure
     .input(
       z.object({
-        id: z.string().min(1, "Ledger ID is required"),
+        id: z.number().min(1, "Ledger ID is required"),
       })
     )
     .mutation(async ({ ctx, input }) => {

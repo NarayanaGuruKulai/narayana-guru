@@ -87,11 +87,11 @@ const Ledger: React.FC = () => {
 
   return (
     <div className="p-4">
-      <h1 className="text-4xl font-bold text-center mb-6">Ledger Management</h1>
+      <h2 className="flex justify-center text-3xl text-bold mb-8 py-5 text-center">ಲೆಡ್ಜರ್ ನಿರ್ವಹಣೆ</h2>
 
       <button
         onClick={() => setIsPopupOpen(true)}
-        className="bg-blue-600 text-white px-4 py-2 rounded-md mb-4"
+       className="p-2 border border-slate-700 rounded-xl w-44 text-white h-12 bg-black font-BebasNeue"
       >
         Add Ledger Entry
       </button>
