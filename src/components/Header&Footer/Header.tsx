@@ -14,9 +14,9 @@ const adminLinks = [
 
 const userLinks = [
   { href: "/", label: "Home"   },
-  { href: "/captures", label: "Captures"  },
-  { href: "/our-team", label: "Our Team"   },
-  { href: "/gallery", label: "Gallery",  },
+  { href: "/bookings", label: "Bookings"   },
+  { href: "/gallery", label: "Gallery"   },
+  { href: "/committee", label: "Committee",  },
   { href: "/about", label: "About"  },
 ];
 
@@ -36,12 +36,7 @@ const Header: FC = () => {
   return (
     <div className={`relative ${isOpen ? "overflow-hidden" : ""}`}>
     <header className="sticky-header backdrop-blur-sm shadow-md p-4 flex items-center justify-between flex-wrap md:justify-start z-50 w-full bg-black">
-      <div className="flex justify-center items-center w-full md:w-auto px-10">
-        <a
-          href="https://incridea.in"
-          rel="noopener noreferrer"
-          className="mx-auto md:mx-0"
-        >
+      <div className="flex justify-center items-center w-full md:w-auto pl-5">
           <Image
             src="https://utfs.io/f/SVkywvr9y613jkgmVVBN8aJPgDbCAkQ3VmIfG9eUXsF2coMS"
             alt="Logo"
@@ -49,10 +44,9 @@ const Header: FC = () => {
             height={100}
             className="w-auto h-auto max-w-24"
           />
-        </a>
       </div>
 
-        <nav className="hidden md:flex space-x-8 ml-auto text-white text-lg px-10 gap-5 z-40">
+        <nav className="hidden md:flex space-x-8 ml-auto text-white text-lg px-5 gap-5 z-40">
           {session ? (
             isAdminRoute && session.user?.role === "admin" ? (
               adminLinks.map((link) => (
