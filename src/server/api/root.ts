@@ -1,5 +1,6 @@
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 import { membershipRouter } from "./routers/membership";
+import { ledgerRouter } from "./routers/ledger";
 
 /**
  * This is the primary router for your server.
@@ -7,7 +8,8 @@ import { membershipRouter } from "./routers/membership";
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
-  memberships : membershipRouter
+  memberships : membershipRouter,
+  ledger : ledgerRouter
 });
 
 // export type definition of API

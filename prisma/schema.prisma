@@ -89,7 +89,7 @@ model Ledger {
     TransactionHeader String
     Amount  Int
     ReceiptNumber  Int @unique
-    date DateTime @default(now())
+    date String
 }
 
 enum TransactionType {

@@ -132,7 +132,6 @@ const Memberships: React.FC = () => {
             </button>
             <form onSubmit={handleSubmit}>
             <label className="block mt-5 mb-2 text-white text-left">Profile Photo:</label>
-              <UploadComponent onUploadComplete={handleUploadComplete} resetUpload={() => setUploadUrl('')} />
               <label className="block mt-5 mb-2 text-white text-left">Name:</label>
               <input
                 type="text"
