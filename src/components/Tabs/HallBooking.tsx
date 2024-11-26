@@ -83,29 +83,29 @@ const HallBooking: React.FC = () => {
           onClick={() => setIsPopupOpen(true)}
           className="p-2 border border-slate-700 rounded-xl w-32 text-white h-12 bg-black font-BebasNeue"
         >
-          Add Booking
+          ಬುಕಿಂಗ್ ಸೇರಿಸಿ
         </button>
       </div>
 
       {hallBookings && hallBookings.length > 0 ? (
         <div className="overflow-x-auto">
-          <table className="min-w-full border border-gray-300 bg-black">
+          <table className="min-w-full border border-gray-300">
             <thead className="bg-white">
               <tr>
                 <th className="text-black border py-2 px-4 border-b border-slate-700 text-center">
-                  Booking Date
+                ಬುಕಿಂಗ್ ದಿನಾಂಕ
                 </th>
                 <th className="text-black border py-2 px-4 border-b border-slate-700 text-center">
-                  Booking Type
+                ಬುಕಿಂಗ್ ಪ್ರಕಾರ
                 </th>
                 <th className="text-black border py-2 px-4 border-b border-slate-700 text-center">
-                  Booking Note
+                ಬುಕಿಂಗ್ ನೋಟ್ 
                 </th>
                 <th className="text-black border py-2 px-4 border-b border-slate-700 text-center">
-                  From Time
+                ಸಮಯದಿಂದ
                 </th>
                 <th className="text-black border py-2 px-4 border-b border-slate-700 text-center">
-                  To Time
+                ಸಮಯವರಗೆ
                 </th>
               </tr>
             </thead>
@@ -116,7 +116,9 @@ const HallBooking: React.FC = () => {
                     {entry.BookingDate}
                   </td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center">
-                    {entry.BookingType}
+                    {entry.BookingType === 'marriagereceptionengagement' ? 'ಮದುವೆ/ಆರತಕ್ಷತೆ/ನಿಶ್ಚಿತಾರ್ಥ' :
+                    entry.BookingType === 'lastrites' ? 'ಉತ್ತರಕ್ರಿಯೆ' :
+                    entry.BookingType === 'other' ? 'ಇತರ' : ''}
                   </td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center">
                     {entry.BookingNote}
@@ -133,18 +135,18 @@ const HallBooking: React.FC = () => {
           </table>
         </div>
       ) : (
-        <div>No Hall Bookings found.</div>
+        <div>ಯಾವುದೇ ಹಾಲ್ ಬುಕಿಂಗ್ ಕಂಡುಬಂದಿಲ್ಲ</div>
       )}
 
       {isPopupOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur z-50">
-          <div className="bg-white p-6 rounded-3xl shadow-lg relative w-96">
-            <h2 className="text-2xl font-bold text-black mb-4 text-center">Add Hall Booking</h2>
-            <button onClick={handlePopupClose} className="absolute top-3 right-3 text-black text-xl">
+          <div className="bg-black p-10 rounded-3xl shadow-lg relative text-center w-96">
+            <h2 className="text-2xl font-bold text-white mb-4 text-center">ಹಾಲ್ ಬುಕಿಂಗ್ ಸೇರಿಸಿ</h2>
+            <button onClick={handlePopupClose} className="absolute top-10 right-10 text-white text-xl">
               &times;
             </button>
             <form onSubmit={handleSubmit}>
-              <label className="block mb-2 text-black text-left">Booking Date:</label>
+              <label className="block mb-2 text-white text-left">ಬುಕಿಂಗ್ ದಿನಾಂಕ:</label>
               <input
                 type="date"
                 name="BookingDate"
@@ -154,19 +156,19 @@ const HallBooking: React.FC = () => {
                 required
               />
 
-              <label className="block mb-2 text-black text-left">Booking Type:</label>
+              <label className="block mb-2 text-white text-left">ಬುಕಿಂಗ್ ಪ್ರಕಾರ:</label>
               <select
                 name="BookingType"
                 value={BookingType}
                 onChange={handleInputChange}
                 className="w-full mb-4 p-2 border rounded"
               >
-                <option value="marriagereceptionengagement">Marriage/Reception/Engagement</option>
-                <option value="lastrites">Last Rites</option>
-                <option value="other">Other</option>
+                <option value="marriagereceptionengagement">ಮದುವೆ/ಆರತಕ್ಷತೆ/ನಿಶ್ಚಿತಾರ್ಥ</option>
+                <option value="lastrites">ಉತ್ತರಕ್ರಿಯೆ</option>
+                <option value="other">ಇತರ</option>
               </select>
 
-              <label className="block mb-2 text-black text-left">Booking Note:</label>
+              <label className="block mb-2 text-white text-left">ಬುಕಿಂಗ್ ನೋಟ್:</label>
               <input
                 type="text"
                 name="BookingNote"
@@ -176,7 +178,7 @@ const HallBooking: React.FC = () => {
                 required
               />
 
-              <label className="block mb-2 text-black text-left">From Time:</label>
+              <label className="block mb-2 text-white text-left">ಸಮಯದಿಂದ:</label>
               <input
                 type="time"
                 name="FromTime"
@@ -186,7 +188,7 @@ const HallBooking: React.FC = () => {
                 required
               />
 
-              <label className="block mb-2 text-black text-left">To Time:</label>
+              <label className="block mb-2 text-white text-left">ಸಮಯವರಗೆ:</label>
               <input
                 type="time"
                 name="ToTime"
@@ -196,8 +198,8 @@ const HallBooking: React.FC = () => {
                 required
               />
 
-              <button type="submit" className="w-full bg-black text-white py-2 rounded-md">
-                Submit
+              <button type="submit" className="w-full bg-blue-600 text-white p-2 my-2 rounded ">
+              ಸಮರ್ಪಿಸಿ
               </button>
             </form>
           </div>

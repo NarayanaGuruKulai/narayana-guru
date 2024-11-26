@@ -97,9 +97,9 @@ const Memberships: React.FC = () => {
         <div>ಸದಸ್ಯರನ್ನು ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ. ದಯವಿಟ್ಟು ನಂತರ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.</div>
       ) : (
         <div className="overflow-x-auto">
-          <table className="min-w-full border border-gray-300 bg-black">
+          <table className="min-w-full border border-gray-300">
             <thead className="bg-white">
-              <tr>
+              <tr className='hover:bg-gray-50 hover:text-black'>
                 <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">ಫೋಟೋ</th>
                 <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">ಹೆಸರು</th>
                 <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">ವಿಳಾಸ</th>
@@ -190,7 +190,7 @@ const Memberships: React.FC = () => {
               <label className="block mt-5 mb-2 text-white text-left">ಸದಸ್ಯರ ಫೋಟೋ</label>
               <UploadComponent onUploadComplete={handleUploadComplete} resetUpload={() => setUploadUrl('')} />
 
-              <button type="submit" className="p-2 bg-white text-black rounded-xl w-full mt-10">
+              <button type="submit"  className="w-full bg-blue-600 text-white p-2 my-2 rounded ">
               ಸಮರ್ಪಿಸಿ
               </button>
             </form>

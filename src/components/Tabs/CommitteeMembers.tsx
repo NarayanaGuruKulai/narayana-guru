@@ -47,24 +47,24 @@ const CommitteeMembers: React.FC = () => {
 
   return (
     <div className="p-4">
-      <h2 className="flex justify-center text-3xl text-bold mb-8 py-5 text-center"> ಸಮಿತಿ ಸದಸ್ಯರ ನಿರ್ವಹಣೆ</h2>
+      <h2 className="flex justify-center w-full text-2xl text-bold mb-8 py-5 text-center"> ಸಮಿತಿ ಸದಸ್ಯರ ನಿರ್ವಹಣೆ</h2>
 
-      <div className="mb-4 flex gap-2 flex-wrap">
-        <button onClick={handleAddClick} className="p-2 border border-slate-700 rounded-xl w-32 text-white h-12 bg-black font-BebasNeue">
-          Add Member
+      <div className="mb-4 flex gap-2 flex-wrap justify-center">
+        <button onClick={handleAddClick} className="p-2 border border-slate-700 rounded-xl w-48 text-white h-12 bg-black font-BebasNeue">
+        ಸದಸ್ಯರನ್ನು ಸೇರಿಸಿ
         </button>
       </div>
 
       {isLoading ? (
-        <div>Loading...</div>
+        <div>ಲೋಡ್ ಆಗುತ್ತಿದೆ...</div>
       ) : isError ? (
-        <div>Error loading committee members. Please try again later.</div>
+        <div>ಸಮಿತಿ ಸದಸ್ಯರನ್ನು ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ. ದಯವಿಟ್ಟು ನಂತರ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ</div>
       ) : (
         <div className="overflow-x-auto">
-          <table className="min-w-full border border-gray-300 bg-black">
+          <table className="min-w-full border border-gray-300 ">
             <thead className="bg-white">
               <tr>
-                <th className="text-black border py-2 px-4 border-b border-slate-700 text-center">Name</th>
+                <th className="text-black border py-2 px-4 border-b border-slate-700 text-center">ಹೆಸರು</th>
               </tr>
             </thead>
             <tbody>
@@ -81,10 +81,10 @@ const CommitteeMembers: React.FC = () => {
       {isPopupOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur z-50">
           <div className="bg-black p-10 rounded-3xl shadow-lg relative text-center w-96">
-            <h2 className="text-2xl font-bold text-white mb-4">Add Committee Member</h2>
+            <h2 className="text-2xl font-bold text-white mb-4">ಸದಸ್ಯರನ್ನು ಸೇರಿಸಿ</h2>
             <button onClick={handlePopupClose} className="absolute top-6 right-6 text-white p-5">&times;</button>
             <form onSubmit={handleSubmit}>
-              <label className="block mt-5 mb-2 text-white text-left">Name:</label>
+              <label className="block mt-5 mb-2 text-white text-left">ಹೆಸರು:</label>
               <input 
                 type="text" 
                 value={name} 
@@ -92,8 +92,8 @@ const CommitteeMembers: React.FC = () => {
                 className="block w-full mb-4 p-2 rounded-md"
                 required
               />
-              <button type="submit" className="p-2 bg-white text-black rounded-xl w-full mt-10">
-                Submit
+              <button type="submit"  className="w-full bg-blue-600 text-white p-2 my-2 rounded ">
+              ಸಮರ್ಪಿಸಿ
               </button>
             </form>
           </div>

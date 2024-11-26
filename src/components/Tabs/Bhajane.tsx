@@ -75,11 +75,11 @@ const Bhajane: React.FC = () => {
 
       {bhajane && bhajane.length > 0 ? (
         <div className="overflow-x-auto">
-          <table className="min-w-full border border-gray-300 bg-black">
+          <table className="min-w-full border border-gray-300">
             <thead className="bg-white">
               <tr>
-                <th className="text-black border py-2 px-4 border-b border-slate-700 text-center">Name</th>
-                <th className="text-black border py-2 px-4 border-b border-slate-700 text-center">Date</th>
+                <th className="text-black border py-2 px-4 border-b border-slate-700 text-center">ಹೆಸರು</th>
+                <th className="text-black border py-2 px-4 border-b border-slate-700 text-center">ದಿನಾಂಕ</th>
               </tr>
             </thead>
             <tbody>
@@ -93,18 +93,18 @@ const Bhajane: React.FC = () => {
           </table>
         </div>
       ) : (
-        <div>No Bhajane entries found.</div>
+        <div>ಯಾವುದೇ ಭಜನೆ ನಮೂದುಗಳು ಕಂಡುಬಂದಿಲ್ಲ</div>
       )}
 
       {isPopupOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur z-50">
-          <div className="bg-white p-6 rounded-3xl shadow-lg relative w-96">
-            <h2 className="text-2xl font-bold text-black mb-4 text-center">ಭಜನೆ ಸೇರಿಸಿ</h2>
-            <button onClick={handlePopupClose} className="absolute top-3 right-3 text-black text-xl">
+          <div className="bg-black p-6 rounded-3xl shadow-lg relative w-96">
+            <h2 className="text-2xl font-bold text-white mb-4 text-center">ಭಜನೆ ಸೇರಿಸಿ</h2>
+            <button onClick={handlePopupClose} className="absolute top-6 right-8 text-white text-xl">
               &times;
             </button>
             <form onSubmit={handleSubmit}>
-              <label className="block mb-2 text-black text-left">Name:</label>
+              <label className="block mb-2 text-white text-left">ಹೆಸರು:</label>
               <input
                 type="text"
                 value={name}
@@ -113,7 +113,7 @@ const Bhajane: React.FC = () => {
                 required
               />
 
-              <label className="block mb-2 text-black text-left">Date:</label>
+              <label className="block mb-2 text-white text-left">ದಿನಾಂಕ:</label>
               <input
                 type="date"
                 value={date}
@@ -124,9 +124,9 @@ const Bhajane: React.FC = () => {
 
               <button
                 type="submit"
-                className="w-full bg-black text-white py-2 rounded-md"
+                className="w-full bg-blue-600 text-white p-2 my-2 rounded"
               >
-                Submit
+                ಸಮರ್ಪಿಸಿ
               </button>
             </form>
           </div>

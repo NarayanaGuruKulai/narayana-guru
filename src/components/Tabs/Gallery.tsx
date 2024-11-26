@@ -72,21 +72,21 @@ const Gallery: React.FC = () => {
           onClick={handleAddImageClick}
           className="p-2 border border-slate-700 rounded-xl w-32 text-white h-12 bg-black font-BebasNeue"
         >
-          Add Image
+          ಗ್ಯಾಲರಿ ಸೇರಿಸಿ
         </button>
       </div>
 
       {galleryLoading ? (
-        <div className="text-center text-white">Loading gallery...</div>
+        <div className="text-center text-white">ಗ್ಯಾಲರಿ ಲೋಡ್ ಆಗುತ್ತಿದೆ...</div>
       ) : galleryError ? (
-        <div className="text-center text-red-500">Error loading gallery. Please try again later.</div>
+        <div className="text-center text-red-500">ಗ್ಯಾಲರಿಯನ್ನು ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ. ದಯವಿಟ್ಟು ನಂತರ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.</div>
       ) : (
         <div className="overflow-x-auto">
-          <table className="min-w-full border border-gray-300 bg-black">
+          <table className="min-w-full border border-gray-300">
             <thead className="bg-white">
               <tr>
-                <th className="text-black border py-2 px-4 border-b border-slate-700 text-center">Image</th>
-                <th className="text-black border py-2 px-4 border-b border-slate-700 text-center">Upload Date</th>
+                <th className="text-black border py-2 px-4 border-b border-slate-700 text-center">ಫೋಟೋ</th>
+                <th className="text-black border py-2 px-4 border-b border-slate-700 text-center">ಅಪ್ಲೋಡ್ ದಿನಾಂಕ</th>
               </tr>
             </thead>
             <tbody>
@@ -108,7 +108,7 @@ const Gallery: React.FC = () => {
       {isPopupOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur z-50">
           <div className="bg-black p-10 rounded-3xl shadow-lg relative text-center w-96">
-            <h2 className="text-2xl font-bold text-white mb-4">Add Image to Gallery</h2>
+            <h2 className="text-2xl font-bold text-white mb-4">ಗ್ಯಾಲರಿ ಸೇರಿಸಿ</h2>
             <button onClick={handlePopupClose} className="absolute top-6 right-6 text-white p-5" aria-label="Close popup">
               &times;
             </button>
@@ -116,8 +116,8 @@ const Gallery: React.FC = () => {
               <label className="block mt-5 mb-2 text-white text-left">Upload Image:</label>
               <UploadComponent onUploadComplete={handleUploadComplete} resetUpload={() => setUploadUrl('')} />
 
-              <button type="submit" className="p-2 bg-white text-black rounded-xl w-full mt-10">
-                Submit
+              <button type="submit"  className="w-full bg-blue-600 text-white p-2 my-2 rounded ">
+              ಸಮರ್ಪಿಸಿ
               </button>
             </form>
           </div>

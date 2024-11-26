@@ -139,7 +139,7 @@ const Ledger: React.FC = () => {
             </thead>
             <tbody>
               {outgoingLedger?.map((entry) => (
-                <tr key={entry.id}>
+                <tr key={entry.id} className="hover:bg-gray-50 hover:text-black">
                   <td className="border border-gray-300 p-2">{entry.TransactionHeader}</td>
                   <td className="border border-gray-300 p-2">{entry.ReceiptNumber}</td>
                   <td className="border border-gray-300 p-2">{entry.date}</td>
@@ -213,7 +213,7 @@ const Ledger: React.FC = () => {
                 type="submit"
                 className="w-full bg-blue-600 text-white p-2 rounded "
               >
-                Submit
+                ಸಮರ್ಪಿಸಿ
               </button>
             </form>
           </div>

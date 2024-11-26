@@ -4,7 +4,7 @@ import CommitteeMembers from './CommitteeMembers'
 
 const Committee = () => {
   return (
-    <div>
+    <div className='flex w-full gap-20 justify-center'>
       <CommitteeCore/>
       <CommitteeMembers/>
     </div>
