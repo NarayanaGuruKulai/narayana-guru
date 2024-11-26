@@ -61,15 +61,15 @@ const Bhajane: React.FC = () => {
       <div className="mb-4 flex gap-4 flex-wrap">
         <button
           onClick={() => setIsPopupOpen(true)}
-          className="p-2 border border-slate-700 rounded-xl w-32 text-white h-12 bg-black font-BebasNeue"
+          className="p-2 border border-slate-700 rounded-xl w-44 text-white h-12 bg-black font-BebasNeue"
         >
-          Add Bhajane
+          ಭಜನೆ ಸೇರಿಸಿ
         </button>
         <button
           onClick={handleShowMore}
-          className="p-2 border border-slate-700 rounded-xl w-32 text-white h-12 bg-black font-BebasNeue"
+          className="p-2 border border-slate-700 rounded-xl w-44 text-white h-12 bg-black font-BebasNeue"
         >
-          Show More
+          ಹೆಚ್ಚು ತೋರಿಸು
         </button>
       </div>
 
@@ -99,7 +99,7 @@ const Bhajane: React.FC = () => {
       {isPopupOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur z-50">
           <div className="bg-white p-6 rounded-3xl shadow-lg relative w-96">
-            <h2 className="text-2xl font-bold text-black mb-4 text-center">Add Bhajane</h2>
+            <h2 className="text-2xl font-bold text-black mb-4 text-center">ಭಜನೆ ಸೇರಿಸಿ</h2>
             <button onClick={handlePopupClose} className="absolute top-3 right-3 text-black text-xl">
               &times;
             </button>

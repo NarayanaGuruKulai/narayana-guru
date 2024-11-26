@@ -24,6 +24,9 @@ const Ledger: React.FC = () => {
     },
   };
 
+  const handlePopupClose = () => {
+    setIsPopupOpen(false);
+  };
   const incomingOptions = [
     "ವಿದ್ಯಾ ನಿಧಿ",
     "ಗುರುಪೂಜೆ",
@@ -91,22 +94,22 @@ const Ledger: React.FC = () => {
 
       <button
         onClick={() => setIsPopupOpen(true)}
-       className="p-2 border border-slate-700 rounded-xl w-44 text-white h-12 bg-black font-BebasNeue"
+       className="p-2 border border-slate-700 rounded-xl w-44 text-white h-12 mb-5 bg-black font-BebasNeue"
       >
-        Add Ledger Entry
+        ಲೆಡ್ಜರ್ ಎಂಟ್ರಿ ಸೇರಿಸಿ
       </button>
 
       <div className="flex gap-4">
         {/* Incoming Table */}
         <div className="flex-1">
-          <h2 className="text-center text-lg font-semibold mb-4">Incoming Transactions</h2>
+          <h2 className="text-center text-lg font-semibold mb-4">ಆದಾಯ</h2>
           <table className="w-full border-collapse border border-gray-300">
-            <thead>
+            <thead className="bg-white">
               <tr>
-                <th className="border border-gray-300 p-2">Transaction Header</th>
-                <th className="border border-gray-300 p-2">Receipt Number</th>
-                <th className="border border-gray-300 p-2">Date</th>
-                <th className="border border-gray-300 p-2">Amount</th>
+                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">ಆದಾಯ ಬಗ್ಗೆ</th>
+                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">ರಶೀದಿ ಸಂಖ್ಯೆ</th>
+                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">ದಿನಾಂಕ</th>
+                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">ಮೊತ್ತ</th>
               </tr>
             </thead>
             <tbody>
@@ -124,14 +127,14 @@ const Ledger: React.FC = () => {
 
         {/* Outgoing Table */}
         <div className="flex-1">
-          <h2 className="text-center text-lg font-semibold mb-4">Outgoing Transactions</h2>
+          <h2 className="text-center text-lg font-semibold mb-4">ವೆಚ್ಚ</h2>
           <table className="w-full border-collapse border border-gray-300">
-            <thead>
+            <thead className="bg-white">
               <tr>
-                <th className="border border-gray-300 p-2">Transaction Header</th>
-                <th className="border border-gray-300 p-2">Receipt Number</th>
-                <th className="border border-gray-300 p-2">Date</th>
-                <th className="border border-gray-300 p-2">Amount</th>
+                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">ವೆಚ್ಚ ಬಗ್ಗೆ</th>
+                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">ರಶೀದಿ ಸಂಖ್ಯೆ</th>
+                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">ದಿನಾಂಕ</th>
+                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">ಮೊತ್ತ</th>
               </tr>
             </thead>
             <tbody>
@@ -151,34 +154,33 @@ const Ledger: React.FC = () => {
       {/* Add Ledger Popup */}
       {isPopupOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white p-6 rounded-lg">
-            <h2 className="text-xl font-semibold mb-4">Add Ledger Entry</h2>
+          <div className="bg-black p-10 rounded-3xl shadow-lg relative text-center w-96">
+            <h2 className="text-xl font-semibold mb-4">ಲೆಡ್ಜರ್ ಎಂಟ್ರಿ ಸೇರಿಸಿ</h2>
+            <button onClick={handlePopupClose} className="absolute top-6 right-6 text-white p-5">
+              &times;
+            </button>
             <form onSubmit={handleSubmit}>
-              <label className="block mb-2">Date:</label>
+              <label className="block mb-2 text-left">ದಿನಾಂಕ:</label>
               <input
                 type="date"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
-                className="w-full mb-4 p-2 border rounded"
+                className="w-full mb-4 p-2 border rounded text-black"
                 required
               />
-
-              <label className="block mb-2">Transaction Type:</label>
               <select
                 value={transactionType}
                 onChange={(e) => setTransactionType(e.target.value as "incoming" | "outgoing")}
-                className="w-full mb-4 p-2 border rounded"
+                className="w-full mb-4 p-2 border roundedtext-black text-black"
                 required
               >
-                <option value="incoming">Incoming</option>
-                <option value="outgoing">Outgoing</option>
+                <option value="incoming">ಆದಾಯ</option>
+                <option value="outgoing">ವೆಚ್ಚ</option>
               </select>
-
-              <label className="block mb-2">Transaction Header:</label>
               <select
                 value={transactionHeader}
                 onChange={(e) => setTransactionHeader(e.target.value)}
-                className="w-full mb-4 p-2 border rounded"
+                className="w-full mb-4 p-2 border rounded text-black"
                 required
               >
                 {(transactionType === "incoming" ? incomingOptions : outgoingOptions).map((option) => (
@@ -188,27 +190,28 @@ const Ledger: React.FC = () => {
                 ))}
               </select>
 
-              <label className="block mb-2">Receipt Number:</label>
+              <label className="block mb-2 text-left">
+              ರಶೀದಿ ಸಂಖ್ಯೆ:</label>
               <input
                 type="number"
                 value={receiptNo}
                 onChange={(e) => setReceiptNo(Number(e.target.value))}
-                className="w-full mb-4 p-2 border rounded"
+                className="w-full mb-4 p-2 border rounded text-black"
                 required
               />
 
-              <label className="block mb-2">Amount:</label>
+              <label className="block mb-2 text-left">ಮೊತ್ತ:</label>
               <input
                 type="number"
                 value={amount}
                 onChange={(e) => setAmount(Number(e.target.value))}
-                className="w-full mb-4 p-2 border rounded"
+                className="w-full mb-4 p-2 border rounded text-black"
                 required
               />
 
               <button
                 type="submit"
-                className="w-full bg-blue-600 text-white p-2 rounded"
+                className="w-full bg-blue-600 text-white p-2 rounded "
               >
                 Submit
               </button>

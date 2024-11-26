@@ -40,13 +40,13 @@ const Dashboard = () => {
       return (
         <div className="text-center mt-20 text-lg">
           <h1 className="text-center text-4xl font-bold mb-8 text-white">
-            Hey {session?.user.name}
+          ಹೇ {session?.user.name}
           </h1>
           <p className="text-blue-400">
-            Use <span className="text-yellow-500">Tabs</span> to switch to your destination! 🚀
+          ವಿಭಿನ್ನ ವಿವರಗಳಿಗೆ ತೆರೆಯಲು<span className="text-yellow-500"> ಟ್ಯಾಬ್ಗಳನ್ನು </span> ಬಳಸಿರಿ
           </p>
           <p className="text-gray-300 mt-2">
-            Don’t worry, we’ve got all your needs covered!
+          ನಿಮ್ಮ ಎಲ್ಲಾ ಅಗತ್ಯಗಳನ್ನು ಪೂರೈಸಿದ್ದೇವೆ
           </p>
         </div>
       );
@@ -55,7 +55,7 @@ const Dashboard = () => {
 
   const renderTabNavigation = () => (
     <div className="flex flex-col mb-4 gap-5">
-      <h3 className='my-5 text-center'>Options</h3>
+      <h3 className='my-5 text-center'>ಟ್ಯಾಬ್ಗಳು ↓</h3>
       {userRole === 'admin' && (
         <button
           onClick={() => {
@@ -88,7 +88,7 @@ const Dashboard = () => {
         </button>
       )}
 
-        {(userRole === 'admin' || userRole === 'editor') && (
+        {(userRole === 'admin') && (
         <button
         onClick={() => {
           setActiveTab('bhajane');
