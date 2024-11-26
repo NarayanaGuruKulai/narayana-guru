@@ -5,25 +5,19 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useSession, signOut, signIn } from "next-auth/react";
 import NavLink from "./NavLink";
-import { HiOutlineLogout } from "react-icons/hi";
-import { BiSolidDashboard } from "react-icons/bi";
-import { GoHomeFill } from "react-icons/go";
-import { MdCamera } from "react-icons/md";
-import { RiTeamFill } from "react-icons/ri";
-import { HiInformationCircle } from "react-icons/hi";
+
 
 
 const adminLinks = [
-  { href: "/admin/dashboard", label: "Dashboard", icon: <BiSolidDashboard /> },
-  { href: "/", label: "MainWebPage", icon: <GoHomeFill /> },
+  { href: "/", label: "MainWebPage"},
 ];
 
 const userLinks = [
-  { href: "/", label: "Home", icon: <GoHomeFill /> },
-  { href: "/captures", label: "Captures", icon: <MdCamera /> },
-  { href: "/our-team", label: "Our Team", icon: <RiTeamFill /> },
-  // { href: "/gallery", label: "Gallery", icon: <GrGallery /> },
-  { href: "/about", label: "About", icon: <HiInformationCircle /> },
+  { href: "/", label: "Home"   },
+  { href: "/captures", label: "Captures"  },
+  { href: "/our-team", label: "Our Team"   },
+  { href: "/gallery", label: "Gallery",  },
+  { href: "/about", label: "About"  },
 ];
 
 const Header: FC = () => {
@@ -49,10 +43,10 @@ const Header: FC = () => {
           className="mx-auto md:mx-0"
         >
           <Image
-            src="https://utfs.io/f/0yks13NtToBiMOM3L9fzWI7ScAKGqQtv4FT8wMPEHbihruCg"
+            src="https://utfs.io/f/SVkywvr9y613jkgmVVBN8aJPgDbCAkQ3VmIfG9eUXsF2coMS"
             alt="Logo"
-            width={120}
-            height={70}
+            width={200}
+            height={100}
             className="w-auto h-auto max-w-24"
           />
         </a>
@@ -63,24 +57,23 @@ const Header: FC = () => {
             isAdminRoute && session.user?.role === "admin" ? (
               adminLinks.map((link) => (
                 <div key={link.href} className="flex items-center gap-2">
-                  {link.icon}
+                  
                   <NavLink
                     href={link.href}
                     label={link.label}
                     active={pathname === link.href}
-                    className="text-xl font-BebasNeue relative top-1"
+                    className="text-xl  relative top-1"
                   />
                 </div>
               ))
             ) : (
               userLinks.map((link) => (
                 <div key={link.href} className="flex items-center gap-1">
-                  {link.icon}
                   <NavLink
                     href={link.href}
                     label={link.label}
                     active={link.href === "/" ? pathname === link.href : pathname.startsWith(link.href)}
-                    className="text-xl font-BebasNeue relative top-1"
+                    className="text-xl  relative top-1"
                   />
                 </div>
               ))
@@ -88,12 +81,12 @@ const Header: FC = () => {
           ) : (
             userLinks.map((link) => (
               <div key={link.href} className="flex items-center gap-1">
-                {link.icon}
+                
                 <NavLink
                   href={link.href}
                   label={link.label}
                   active={link.href === "/" ? pathname === link.href : pathname.startsWith(link.href)}
-                  className="text-xl font-BebasNeue relative top-1"
+                  className="text-xl  relative top-1"
                 />
               </div>
             ))
@@ -103,7 +96,7 @@ const Header: FC = () => {
               onClick={() => signIn()}
               className="text-white text-xl flex"
             >
-              <HiOutlineLogout /> <span className="font-BebasNeue relative top-0.5">SignIn</span>
+            <span className=" relative top-0.5">SignIn</span>
             </button>
           )}
           {session && isAdminRoute && session.user?.role === "admin" && (
@@ -111,7 +104,7 @@ const Header: FC = () => {
               onClick={() => signOut()}
               className="text-white text-xl flex items-center gap-3"
             >
-              <HiOutlineLogout /> <span className="font-BebasNeue relative top-0.5">Logout</span>
+            <span className=" relative top-0.5">Logout</span>
             </button>
           )}
         </nav>
@@ -145,26 +138,26 @@ const Header: FC = () => {
             isAdminRoute && session.user?.role === "admin" ? (
               adminLinks.map((link) => (
                 <div key={link.href} className="flex items-center gap-3">
-                  {link.icon}
+                  
                   <NavLink
                     href={link.href}
                     label={link.label}
                     active={pathname === link.href}
                     onClick={() => setIsOpen(false)}
-                    className="text-xl w-fit  font-BebasNeue"
+                    className="text-xl w-fit  "
                   />
                 </div>
               ))
             ) : (
               userLinks.map((link) => (
                 <div key={link.href} className="flex items-center gap-1">
-                  {link.icon}
+                  
                   <NavLink
                     href={link.href}
                     label={link.label}
                     active={link.href === "/" ? pathname === link.href : pathname.startsWith(link.href)}
                     onClick={() => setIsOpen(false)}
-                    className="text-xl w-fit font-BebasNeue"
+                    className="text-xl w-fit "
                   />
                 </div>
               ))
@@ -172,13 +165,13 @@ const Header: FC = () => {
           ) : (
             userLinks.map((link) => (
               <div key={link.href} className="flex items-center gap-1">
-                {link.icon}
+                
                 <NavLink
                   href={link.href}
                   label={link.label}
                   active={link.href === "/" ? pathname === link.href : pathname.startsWith(link.href)}
                   onClick={() => setIsOpen(false)}
-                  className="text-xl w-fit font-BebasNeue"
+                  className="text-xl w-fit "
                 />
               </div>
             ))
@@ -189,7 +182,7 @@ const Header: FC = () => {
               onClick={() => signIn()}
               className="text-white text-xl flex"
             >
-              <HiOutlineLogout /> <span className="font-BebasNeue relative top-0.5">SignIn</span>
+          <span className=" relative top-0.5">SignIn</span>
             </button>
           )}
           {session && isAdminRoute && session.user?.role === "admin" && (
@@ -197,7 +190,7 @@ const Header: FC = () => {
               onClick={() => signOut()}
               className="text-white text-xl flex items-center gap-3"
             >
-              <HiOutlineLogout />Logout
+              Logout
             </button>
           )}
         </div>
