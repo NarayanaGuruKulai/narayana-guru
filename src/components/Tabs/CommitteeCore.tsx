@@ -49,7 +49,7 @@ const CommitteeCore: React.FC = () => {
 
   return (
     <div className="p-4">
-      <h2 className="flex justify-center text-3xl text-bold mb-8 py-5 text-center">ಮುಖ್ಯ ಕಮಿಟಿ ನಿರ್ವಹಣೆ</h2>
+      <h2 className="flex justify-center text-3xl text-bold mb-8 py-5 text-center">ಮುಖ್ಯ ಸಮಿತಿ ನಿರ್ವಹಣೆ</h2>
 
       <div className="mb-4 flex gap-2 flex-wrap">
         <button onClick={handleAddClick} className="p-2 border border-slate-700 rounded-xl w-32 text-white h-12 bg-black font-BebasNeue">

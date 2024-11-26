@@ -68,7 +68,8 @@ const Dashboard = () => {
               : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-purple-700 to-gray-900'
           } transition duration-200`}  
         >
-          Memberships
+          
+        ಸದಸ್ಯತ್ವಗಳು
         </button>
       )}
       {userRole === 'admin' && (
@@ -83,7 +84,7 @@ const Dashboard = () => {
               : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-purple-700 to-gray-900'
           } transition duration-200`}                
         >
-          Ledger
+          ಲೆಡ್ಜರ್
         </button>
       )}
 
@@ -99,7 +100,7 @@ const Dashboard = () => {
               : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-purple-700 to-gray-900'
           } transition duration-200`}  
       >
-        Bhajane
+        ಭಜನೆ
       </button>
       
       )}
@@ -116,7 +117,7 @@ const Dashboard = () => {
               : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-purple-700 to-gray-900'
           } transition duration-200`}  
       >
-        Hall Booking
+        ಹಾಲ್ ಬುಕಿಂಗ್
       </button>
       
       )}
@@ -133,7 +134,7 @@ const Dashboard = () => {
               : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-purple-700 to-gray-900'
           } transition duration-200`}  
       >
-        Gallery
+        ಗ್ಯಾಲರಿ
       </button>
       
       )}
@@ -150,7 +151,7 @@ const Dashboard = () => {
               : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-purple-700 to-gray-900'
           } transition duration-200`}  
       >
-       Committee
+       ಸಮಿತಿ
       </button>
       
       )}
