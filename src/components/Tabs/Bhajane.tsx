@@ -7,7 +7,9 @@ const Bhajane: React.FC = () => {
   const [name, setName] = useState<string>("");
   const [date, setDate] = useState<string>("");
   const [limit, setLimit] = useState(20); // Initial limit for entries
-
+  const  deleteBhajane = api.bhajane.deleteBhajane.useMutation();
+  const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
+  const [selectedBhajaneId, setSelectedBhajaneId] = useState<number | null>(null);
   const addBhajane = api.bhajane.addBhajane.useMutation();
   const { data: bhajane, refetch } = api.bhajane.getAllBhajane.useQuery({
     limit,
@@ -31,6 +33,25 @@ const Bhajane: React.FC = () => {
     setLimit((prev) => prev + 20); // Increase limit by 20
   };
 
+  
+  const handleDeleteClick = (id: number) => {
+    setSelectedBhajaneId(id);
+    setIsDeletePopupOpen(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (!selectedBhajaneId) return;
+
+    try {
+      await deleteBhajane.mutateAsync({ id: selectedBhajaneId });
+      toast.success('Bhajane deleted successfully', toastStyle);
+      setSelectedBhajaneId(null);
+      setIsDeletePopupOpen(false);
+      void refetch();
+    } catch {
+      toast.error('Failed to delete the entry', toastStyle);
+    }
+  };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -80,6 +101,7 @@ const Bhajane: React.FC = () => {
               <tr>
                 <th className="text-black border py-2 px-4 border-b border-slate-700 text-center">ಹೆಸರು</th>
                 <th className="text-black border py-2 px-4 border-b border-slate-700 text-center">ದಿನಾಂಕ</th>
+                <th className="text-black border py-2 px-4 border-b border-slate-700 text-center">ಅಳಿಸು</th>
               </tr>
             </thead>
             <tbody>
@@ -87,6 +109,14 @@ const Bhajane: React.FC = () => {
                 <tr key={entry.id} className="hover:bg-gray-50 hover:text-black">
                   <td className="py-2 px-4 border-b border-slate-700 text-center">{entry.name}</td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center">{entry.date}</td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center">
+                    <button
+                      onClick={() => handleDeleteClick(entry.id)}
+                      className="bg-red-500 text-white px-3 py-1 rounded"
+                    >
+                      ಅಳಿಸು
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -129,6 +159,26 @@ const Bhajane: React.FC = () => {
                 ಸಮರ್ಪಿಸಿ
               </button>
             </form>
+          </div>
+        </div>
+      )}
+
+  {isDeletePopupOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur z-50">
+          <div className="bg-black p-6 rounded shadow-lg text-center">
+            <p className="mb-4">ನೀವು ಅತಿಕ್ರಮಿಸಲು ಇಚ್ಛಿಸುತ್ತಿದ್ದೀರಾ?</p>
+            <button
+              onClick={handleDeleteConfirm}
+              className="bg-red-500 text-white px-4 py-2 rounded mr-2"
+            >
+              ಹೌದು
+            </button>
+            <button
+              onClick={() => setIsDeletePopupOpen(false)}
+              className="bg-gray-300 text-black px-4 py-2 rounded"
+            >
+              ಇಲ್ಲ
+            </button>
           </div>
         </div>
       )}

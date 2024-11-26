@@ -245,18 +245,18 @@ const Memberships: React.FC = () => {
       {isDeletePopupOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur z-50">
           <div className="bg-black p-6 rounded shadow-lg text-center">
-            <p className="mb-4">Are you sure you want to delete this member?</p>
+            <p className="mb-4">ನೀವು ಅತಿಕ್ರಮಿಸಲು ಇಚ್ಛಿಸುತ್ತಿದ್ದೀರಾ?</p>
             <button
               onClick={handleDeleteConfirm}
               className="bg-red-500 text-white px-4 py-2 rounded mr-2"
             >
-              Confirm
+              ಹೌದು
             </button>
             <button
               onClick={() => setIsDeletePopupOpen(false)}
               className="bg-gray-300 text-black px-4 py-2 rounded"
             >
-              Cancel
+              ಇಲ್ಲ
             </button>
           </div>
         </div>

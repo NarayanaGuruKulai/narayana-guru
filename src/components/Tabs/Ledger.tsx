@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
-
+import { MdDelete } from "react-icons/md";
 const Ledger: React.FC = () => {
   const addLedger = api.ledger.addLedger.useMutation();
   const { data: incomingLedger, refetch: refetchIncoming } =
     api.ledger.getAllLedger.useQuery({ type: "incoming" });
   const { data: outgoingLedger, refetch: refetchOutgoing } =
     api.ledger.getAllLedger.useQuery({ type: "outgoing" });
+    const  deleteLedger = api.ledger.deleteLedger.useMutation();
+    const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
+    const [selectedLedgerId, setSelectedLedgerId] = useState<number | null>(null);
 
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [date, setDate] = useState<string>("");
@@ -27,6 +30,32 @@ const Ledger: React.FC = () => {
   const handlePopupClose = () => {
     setIsPopupOpen(false);
   };
+
+  const handleDeleteClick = (id: number) => {
+    setSelectedLedgerId(id);
+    setIsDeletePopupOpen(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (!selectedLedgerId) return;
+  
+    try {
+      await deleteLedger.mutateAsync({ id: selectedLedgerId });
+      toast.success("Ledger deleted successfully", toastStyle);
+      setSelectedLedgerId(null);
+      setIsDeletePopupOpen(false);
+      
+      // Refetch the correct ledger data
+      if (transactionType === "incoming") {
+        void refetchIncoming(); // Refetch incoming ledger
+      } else {
+        void refetchOutgoing(); // Refetch outgoing ledger
+      }
+    } catch {
+      toast.error("Failed to delete the entry", toastStyle);
+    }
+  };
+  
   const incomingOptions = [
     "ವಿದ್ಯಾ ನಿಧಿ",
     "ಗುರುಪೂಜೆ",
@@ -110,6 +139,7 @@ const Ledger: React.FC = () => {
                 <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">ರಶೀದಿ ಸಂಖ್ಯೆ</th>
                 <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">ದಿನಾಂಕ</th>
                 <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">ಮೊತ್ತ</th>
+                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">ಅಳಿಸು</th>
               </tr>
             </thead>
             <tbody>
@@ -119,6 +149,14 @@ const Ledger: React.FC = () => {
                   <td className="border border-gray-300 p-2">{entry.ReceiptNumber}</td>
                   <td className="border border-gray-300 p-2">{entry.date}</td>
                   <td className="border border-gray-300 p-2">{entry.Amount}</td>
+                  <td className="border border-gray-300 p-2 text-center">
+                    <button
+                      onClick={() => handleDeleteClick(entry.id)}
+                      className="bg-red-500 text-white px-3 py-1 rounded"
+                    >
+                      <MdDelete />
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -135,6 +173,7 @@ const Ledger: React.FC = () => {
                 <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">ರಶೀದಿ ಸಂಖ್ಯೆ</th>
                 <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">ದಿನಾಂಕ</th>
                 <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">ಮೊತ್ತ</th>
+                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">ಅಳಿಸು</th>
               </tr>
             </thead>
             <tbody>
@@ -144,6 +183,14 @@ const Ledger: React.FC = () => {
                   <td className="border border-gray-300 p-2">{entry.ReceiptNumber}</td>
                   <td className="border border-gray-300 p-2">{entry.date}</td>
                   <td className="border border-gray-300 p-2">{entry.Amount}</td>
+                  <td className="border border-gray-300 p-2 text-center">
+                    <button
+                      onClick={() => handleDeleteClick(entry.id)}
+                      className="bg-red-500 text-white px-3 py-1 rounded"
+                    >
+                      <MdDelete />
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -216,6 +263,26 @@ const Ledger: React.FC = () => {
                 ಸಮರ್ಪಿಸಿ
               </button>
             </form>
+          </div>
+        </div>
+      )}
+
+{isDeletePopupOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur z-50">
+          <div className="bg-black p-6 rounded shadow-lg text-center">
+            <p className="mb-4">ನೀವು ಅತಿಕ್ರಮಿಸಲು ಇಚ್ಛಿಸುತ್ತಿದ್ದೀರಾ?</p>
+            <button
+              onClick={handleDeleteConfirm}
+              className="bg-red-500 text-white px-4 py-2 rounded mr-2"
+            >
+              ಹೌದು
+            </button>
+            <button
+              onClick={() => setIsDeletePopupOpen(false)}
+              className="bg-gray-300 text-black px-4 py-2 rounded"
+            >
+              ಇಲ್ಲ
+            </button>
           </div>
         </div>
       )}
