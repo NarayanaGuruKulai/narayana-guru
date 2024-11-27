@@ -72,7 +72,7 @@ model memberships {
     address   String?   // Allow null values
     date      String? // Allow null values
     type      MemType
-    receiptNo Int
+    receiptno Int
     photo     String
 }
 

@@ -29,7 +29,7 @@ export const membershipRouter = createTRPCRouter({
           date: input.date ?? null,
           type: input.type as MemType, // Type-cast to MemType
           photo: imageUrl,
-          receiptNo: input.receiptNo,
+          receiptno: input.receiptNo,
         },
       });
 
