@@ -5,11 +5,28 @@ import Image from 'next/image';
 import toast from 'react-hot-toast';
 import { MdDelete } from 'react-icons/md';
 
+// Define a strong type for Member
+type Member = {
+  id: number;
+  name: string;
+  address: string;
+  date: string;
+  type: 'ajeeva' | 'poshaka' | 'mrutha';
+  receiptno: number; // Ensure this is typed correctly
+  photo: string;
+};
+
 const Memberships: React.FC = () => {
   const addMember = api.memberships.addMember.useMutation();
   const deleteMember = api.memberships.deleteMembership.useMutation();
-  const { data: members, isLoading: membersLoading, isError: membersError, refetch } = api.memberships.getAllMembers.useQuery();
-
+  const {
+    data: members,
+    isLoading: membersLoading,
+    isError: membersError,
+    refetch,
+  } = api.memberships.getAllMembers.useQuery<Member[]>();
+  
+  
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
   const [selectedMemberId, setSelectedMemberId] = useState<number | null>(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -101,13 +118,16 @@ const Memberships: React.FC = () => {
     }
   };
 
-  const filteredMembers = members?.filter((member) => {
-    const matchesName = member.name.toLowerCase().includes(nameSearch.toLowerCase());
-    const matchesReceiptNo = member.receiptNo.toString().includes(receiptNoSearch);
-    const matchesType = typeFilter ? member.type === typeFilter : true;
-    return matchesName && matchesReceiptNo && matchesType;
-  });
+  // Filter members based on the search inputs and type filter
+const filteredMembers = members?.filter((member) => {
+  const nameSearchLower = nameSearch.toLowerCase();
+  const matchesName = member.name?.toLowerCase().includes(nameSearchLower);
+  const receiptNoStr = member.receiptno?.toString() || '';
+  const matchesReceiptNo = receiptNoStr.includes(receiptNoSearch);
+  const matchesType = typeFilter ? member.type === typeFilter : true;
 
+  return matchesName && matchesReceiptNo && matchesType;
+}) ?? [];
   return (
     <div className="p-4">
       <h2 className="flex justify-center text-3xl text-bold mb-8 py-5 text-center">ಸದಸ್ಯತ್ವ ನಿರ್ವಹಣೆ</h2>
@@ -190,7 +210,7 @@ const Memberships: React.FC = () => {
                       ? 'ಮೃತ'
                       : ''}
                   </td>
-                  <td className="py-2 px-4 border-b border-slate-700 text-center">{member.receiptNo}</td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center">{member.receiptno}</td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center">
                     <button
                       onClick={() => handleDeleteClick(member.id)}
