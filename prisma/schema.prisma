@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-    provider = "mysql"
+    provider = "cockroachdb"
     // NOTE: When using mysql or sqlserver, uncomment the @db.Text annotations in model Account below
     // Further reading:
     // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
@@ -21,7 +21,7 @@ model Account {
     type                     String
     provider                 String
     providerAccountId        String
-    refresh_token            String? @db.Text
+    // refresh_token            String? @db.Text
     access_token             String? // @db.Text
     expires_at               Int?
     token_type               String?
@@ -67,7 +67,7 @@ model VerificationToken {
 }
 
 model Memberships {
-    id        Int      @id @default(autoincrement()) 
+    id        Int      @id @default(sequence()) 
     name      String
     address   String?   // Allow null values
     date      String? // Allow null values
@@ -84,7 +84,7 @@ enum MemType {
 }
 
 model Ledger {
-    id   Int      @id @default(autoincrement()) 
+    id   Int      @id @default(sequence()) 
     TransactionType TransactionType
     TransactionHeader String
     Amount  Int
@@ -98,13 +98,13 @@ enum TransactionType {
 }
 
 model  Bhajane {
-    id   Int      @id @default(autoincrement()) 
+    id   Int      @id @default(sequence()) 
     date String
     name String
 }
 
 model HallBooking {
-    id   Int      @id @default(autoincrement()) 
+    id   Int      @id @default(sequence()) 
     BookingDate String
     BookingType BookingTypes
     BookingNote String
@@ -120,19 +120,19 @@ enum BookingTypes {
 }
 
 model Gallery {
-    id   Int      @id @default(autoincrement()) 
+    id   Int      @id @default(sequence()) 
     imagePath   String
     uploadDate  DateTime @default(now())
 }
 
 model CommitteeCore {
-    id   Int      @id @default(autoincrement()) 
+    id   Int      @id @default(sequence()) 
     Post    String
     Name    String
     photo     String
 }
 
 model CommitteeMembers {
-    id   Int      @id @default(autoincrement()) 
+    id   Int      @id @default(sequence()) 
     Name    String
 }
