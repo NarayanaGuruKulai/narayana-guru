@@ -66,7 +66,7 @@ model VerificationToken {
     @@unique([identifier, token])
 }
 
-model Memberships {
+model memberships {
     id        Int      @id @default(sequence()) 
     name      String
     address   String?   // Allow null values
@@ -83,7 +83,7 @@ enum MemType {
     mrutha
 }
 
-model Ledger {
+model ledger {
     id   Int      @id @default(sequence()) 
     TransactionType TransactionType
     TransactionHeader String
@@ -97,13 +97,13 @@ enum TransactionType {
     outgoing
 }
 
-model  Bhajane {
+model  bhajane {
     id   Int      @id @default(sequence()) 
     date String
     name String
 }
 
-model HallBooking {
+model hallBooking {
     id   Int      @id @default(sequence()) 
     BookingDate String
     BookingType BookingTypes
@@ -119,20 +119,20 @@ enum BookingTypes {
     other
 }
 
-model Gallery {
+model gallery {
     id   Int      @id @default(sequence()) 
     imagePath   String
     uploadDate  DateTime @default(now())
 }
 
-model CommitteeCore {
+model committeeCore {
     id   Int      @id @default(sequence()) 
     Post    String
     Name    String
     photo     String
 }
 
-model CommitteeMembers {
+model committeeMembers {
     id   Int      @id @default(sequence()) 
     Name    String
 }
