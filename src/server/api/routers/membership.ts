@@ -14,7 +14,7 @@ export const membershipRouter = createTRPCRouter({
         date: z.string().optional(),
         type: z.enum(["ajeeva","poshaka","mrutha"],),
         photo: z.string().optional(),
-        receiptNo: z.number().min(1, "Receipt number is required"),
+        receiptno: z.number().min(1, "Receipt number is required"),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -29,7 +29,7 @@ export const membershipRouter = createTRPCRouter({
           date: input.date ?? null,
           type: input.type as MemType, // Type-cast to MemType
           photo: imageUrl,
-          receiptno: input.receiptNo,
+          receiptno: input.receiptno,
         },
       });
 

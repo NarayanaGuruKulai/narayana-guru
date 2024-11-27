@@ -26,7 +26,7 @@ const { data: outgoingLedger, refetch: refetchOutgoing } = api.ledger.getAllLedg
   const [transactionType, setTransactionType] = useState<"incoming" | "outgoing">("incoming");
   const [transactionHeader, setTransactionHeader] = useState<string>("");
   const [amount, setAmount] = useState<number>(0);
-  const [receiptNo, setReceiptNo] = useState<number>(1);
+  const [receiptno, setReceiptNo] = useState<number>(1);
 
   const toastStyle = {
     style: {
@@ -113,7 +113,7 @@ const { data: outgoingLedger, refetch: refetchOutgoing } = api.ledger.getAllLedg
         TransactionType: transactionType,
         TransactionHeader: transactionHeader,
         Amount: amount,
-        ReceiptNumber: receiptNo,
+        ReceiptNumber: receiptno,
       });
 
       console.log("Ledger entry added:", result);
@@ -261,7 +261,7 @@ const { data: outgoingLedger, refetch: refetchOutgoing } = api.ledger.getAllLedg
               ರಶೀದಿ ಸಂಖ್ಯೆ:</label>
               <input
                 type="number"
-                value={receiptNo}
+                value={receiptno}
                 onChange={(e) => setReceiptNo(Number(e.target.value))}
                 className="w-full mb-4 p-2 border rounded text-black"
                 required

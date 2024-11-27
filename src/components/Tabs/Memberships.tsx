@@ -36,7 +36,7 @@ const Memberships: React.FC = () => {
   const [address, setAddress] = useState<string>('');
   const [date, setDate] = useState<string>('');
   const [type, setType] = useState<'ajeeva' | 'poshaka' | 'mrutha'>('ajeeva');
-  const [receiptNo, setReceiptNo] = useState<number>();
+  const [receiptno, setReceiptNo] = useState<number>();
   const [nameSearch, setNameSearch] = useState<string>('');
   const [receiptNoSearch, setReceiptNoSearch] = useState<string>('');
   const [typeFilter, setTypeFilter] = useState<string>(''); // New filter state
@@ -83,7 +83,7 @@ const Memberships: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!name || !receiptNo || !type || !address || !date) {
+    if (!name || !receiptno || !type || !address || !date) {
       toast.error('Please fill in all the required fields.', toastStyle);
       return;
     }
@@ -100,7 +100,7 @@ const Memberships: React.FC = () => {
         date,
         type,
         photo: uploadUrl || '',
-        receiptNo,
+        receiptno,
       });
 
       console.log('Member added:', result);
@@ -266,7 +266,7 @@ const filteredMembers = members?.filter((member) => {
               <input
                 type="number"
                 placeholder="ರಶೀದಿ ಸಂಖ್ಯೆ"
-                value={receiptNo}
+                value={receiptno}
                 onChange={(e) => setReceiptNo(parseInt(e.target.value))}
                 className="p-2 border border-gray-300 rounded-lg text-black"
               />

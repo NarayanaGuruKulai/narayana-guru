@@ -46,7 +46,7 @@ async function main() {
         address: `Address ${index + 1}`,
         date: `2024-11-26`,
         type: index % 3 === 0 ? "ajeeva" : index % 3 === 1 ? "poshaka" : "mrutha",
-        receiptNo: 1000 + index,
+        receiptno: 1000 + index,
         photo: `https://utfs.io/f/SVkywvr9y613jkgmVVBN8aJPgDbCAkQ3VmIfG9eUXsF2coMS`,
       })),
     });
