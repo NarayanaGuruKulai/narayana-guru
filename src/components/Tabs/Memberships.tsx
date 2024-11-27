@@ -11,7 +11,7 @@ const Memberships: React.FC = () => {
   const { data: members, isLoading: membersLoading, isError: membersError, refetch } = api.memberships.getAllMembers.useQuery();
 
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
-  const [selectedMemberId, setSelectedMemberId] = useState<number | null>(null); // Updated type to string
+  const [selectedMemberId, setSelectedMemberId] = useState<number | null>(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [newImage, setNewImage] = useState<string>('');
   const [uploadUrl, setUploadUrl] = useState<string>('');
@@ -22,6 +22,7 @@ const Memberships: React.FC = () => {
   const [receiptNo, setReceiptNo] = useState<number>();
   const [nameSearch, setNameSearch] = useState<string>('');
   const [receiptNoSearch, setReceiptNoSearch] = useState<string>('');
+  const [typeFilter, setTypeFilter] = useState<string>(''); // New filter state
 
   const toastStyle = {
     style: {
@@ -103,7 +104,8 @@ const Memberships: React.FC = () => {
   const filteredMembers = members?.filter((member) => {
     const matchesName = member.name.toLowerCase().includes(nameSearch.toLowerCase());
     const matchesReceiptNo = member.receiptNo.toString().includes(receiptNoSearch);
-    return matchesName && matchesReceiptNo;
+    const matchesType = typeFilter ? member.type === typeFilter : true;
+    return matchesName && matchesReceiptNo && matchesType;
   });
 
   return (
@@ -133,6 +135,17 @@ const Memberships: React.FC = () => {
           onChange={(e) => setReceiptNoSearch(e.target.value)}
           className="p-2 border border-gray-300 rounded-full w-60 text-black"
         />
+
+        <select
+          value={typeFilter}
+          onChange={(e) => setTypeFilter(e.target.value)}
+          className="p-2 border border-gray-300 rounded-full w-44 text-black"
+        >
+          <option value="">ಎಲ್ಲಾ ಪ್ರಕಾರ</option>
+          <option value="ajeeva">ಅಜೀವ</option>
+          <option value="poshaka">ಪೋಷಕ</option>
+          <option value="mrutha">ಮೃತ</option>
+        </select>
       </div>
 
       {membersLoading ? (
@@ -157,15 +170,25 @@ const Memberships: React.FC = () => {
               {filteredMembers?.map((member) => (
                 <tr key={member.id} className="hover:bg-gray-50 hover:text-black">
                   <td className="py-2 px-4 border-b border-slate-700 text-center flex justify-center">
-                    <Image src={member.photo} alt={member.name} width={25} height={25} className="h-28 w-28 object-cover" />
+                    <Image
+                      src={member.photo}
+                      alt={member.name}
+                      width={25}
+                      height={25}
+                      className="h-28 w-28 object-cover"
+                    />
                   </td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center text-wrap">{member.name}</td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center text-wrap">{member.address}</td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center">{member.date}</td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center">
-                    {member.type === 'ajeeva' ? 'ಅಜೀವ' :
-                    member.type === 'poshaka' ? 'ಪೋಷಕ' :
-                    member.type === 'mrutha' ? 'ಮೃತ' : ''}
+                    {member.type === 'ajeeva'
+                      ? 'ಅಜೀವ'
+                      : member.type === 'poshaka'
+                      ? 'ಪೋಷಕ'
+                      : member.type === 'mrutha'
+                      ? 'ಮೃತ'
+                      : ''}
                   </td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center">{member.receiptNo}</td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center">
@@ -173,7 +196,7 @@ const Memberships: React.FC = () => {
                       onClick={() => handleDeleteClick(member.id)}
                       className="bg-red-500 text-white px-3 py-1 rounded"
                     >
-                      <MdDelete/>
+                      <MdDelete />
                     </button>
                   </td>
                 </tr>
@@ -187,56 +210,52 @@ const Memberships: React.FC = () => {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur z-50">
           <div className="bg-black p-10 rounded-3xl shadow-lg relative text-center w-96">
             <h2 className="text-2xl font-bold text-white mb-4">ಸದಸ್ಯರನ್ನು ಸೇರಿಸಿ</h2>
-            <button onClick={handlePopupClose} className="absolute top-4 right-6 text-2xl text-white p-5">
+            <button onClick={handlePopupClose} className="absolute top-10 right-10 text-white text-2xl font-bold">
               &times;
             </button>
-            <form onSubmit={handleSubmit}>
-              <label className="block mt-5 mb-2 text-white text-left">ಹೆಸರು:</label>
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
               <input
                 type="text"
+                placeholder="ಹೆಸರು"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full p-2 rounded-xl text-black"
-                required
+                className="p-2 border border-gray-300 rounded-lg text-black"
               />
-              <label className="block mt-5 mb-2 text-white text-left">ವಿಳಾಸ:</label>
               <input
                 type="text"
+                placeholder="ವಿಳಾಸ"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
-                className="w-full p-2 rounded-xl text-black"
-                required
+                className="p-2 border border-gray-300 rounded-lg text-black"
               />
-              <label className="block mt-5 mb-2 text-white text-left">ದಿನಾಂಕ:</label>
               <input
                 type="date"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
-                className="w-full p-2 rounded-xl text-black"
-                required
+                className="p-2 border border-gray-300 rounded-lg text-black"
               />
-              <label className="block mt-5 mb-2 text-white text-left">ಸದಸ್ಯತ್ವ ಪ್ರಕಾರ:</label>
               <select
                 value={type}
                 onChange={(e) => setType(e.target.value as 'ajeeva' | 'poshaka' | 'mrutha')}
-                className="w-full p-2 rounded-xl text-black"
-                required
+                className="p-2 border border-gray-300 rounded-lg text-black"
               >
                 <option value="ajeeva">ಅಜೀವ</option>
                 <option value="poshaka">ಪೋಷಕ</option>
                 <option value="mrutha">ಮೃತ</option>
               </select>
-              <label className="block mt-5 mb-2 text-white text-left">ರಶೀದಿ ಸಂಖ್ಯೆ:</label>
               <input
                 type="number"
+                placeholder="ರಶೀದಿ ಸಂಖ್ಯೆ"
                 value={receiptNo}
-                onChange={(e) => setReceiptNo(Number(e.target.value))}
-                className="w-full p-2 rounded-xl text-black"
-                required
+                onChange={(e) => setReceiptNo(parseInt(e.target.value))}
+                className="p-2 border border-gray-300 rounded-lg text-black"
               />
-              <UploadComponent onUploadComplete={handleUploadComplete} resetUpload={() => setUploadUrl('')} />
-              <button type="submit" className="mt-8 p-3 rounded-2xl text-center bg-blue-500 text-white">
-                ಸೇರ್ಪಡೆ
+               <UploadComponent onUploadComplete={handleUploadComplete} resetUpload={() => setUploadUrl('')} />
+              <button
+                type="submit"
+                className="p-2 border border-gray-300 rounded-lg bg-green-500 text-white font-bold"
+              >
+                ಸೇರ್ ಮಾಡಿ
               </button>
             </form>
           </div>
@@ -244,24 +263,24 @@ const Memberships: React.FC = () => {
       )}
 
       {isDeletePopupOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur z-50">
-          <div className="bg-black p-6 rounded shadow-lg text-center">
-            <p className="mb-4">ನೀವು ಅತಿಕ್ರಮಿಸಲು ಇಚ್ಛಿಸುತ್ತಿದ್ದೀರಾ?</p>
-            <button
-              onClick={handleDeleteConfirm}
-              className="bg-red-500 text-white px-4 py-2 rounded mr-2"
-            >
-              ಹೌದು
-            </button>
-            <button
-              onClick={() => setIsDeletePopupOpen(false)}
-              className="bg-gray-300 text-black px-4 py-2 rounded"
-            >
-              ಇಲ್ಲ
-            </button>
-          </div>
-        </div>
-      )}
+              <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur z-50">
+                <div className="bg-black p-6 rounded shadow-lg text-center">
+                  <p className="mb-4">ನೀವು ಅತಿಕ್ರಮಿಸಲು ಇಚ್ಛಿಸುತ್ತಿದ್ದೀರಾ?</p>
+                  <button
+                    onClick={handleDeleteConfirm}
+                    className="bg-red-500 text-white px-4 py-2 rounded mr-2"
+                  >
+                    ಹೌದು
+                  </button>
+                  <button
+                    onClick={() => setIsDeletePopupOpen(false)}
+                    className="bg-gray-300 text-black px-4 py-2 rounded"
+                  >
+                    ಇಲ್ಲ
+                  </button>
+                </div>
+              </div>
+            )}
     </div>
   );
 };

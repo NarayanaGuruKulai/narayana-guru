@@ -35,7 +35,7 @@ const Header: FC = () => {
 
   return (
     <div className={`relative ${isOpen ? "overflow-hidden" : ""}`}>
-    <header className="sticky-header backdrop-blur-sm shadow-md p-4 flex items-center justify-between flex-wrap md:justify-start z-50 w-full bg-black">
+    <header className="sticky-header h-20 backdrop-blur-sm shadow-md p-4 flex items-center justify-between flex-wrap md:justify-start z-50 w-full bg-black">
       <div className="flex justify-center items-center w-full md:w-auto pl-5">
           <Image
             src="https://utfs.io/f/SVkywvr9y613jkgmVVBN8aJPgDbCAkQ3VmIfG9eUXsF2coMS"

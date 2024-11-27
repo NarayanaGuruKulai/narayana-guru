@@ -9,6 +9,7 @@ import HallBooking from '~/components/Tabs/HallBooking';
 import Gallery from '~/components/Tabs/Gallery';
 import Committee from '~/components/Tabs/Committee';
 import useUserRole from '~/hooks/useUserRole';
+import User from '~/components/Tabs/User';
 
 
 const Dashboard = () => {
@@ -35,6 +36,8 @@ const Dashboard = () => {
     if (activeTab === 'hallbooking') return <div><HallBooking/></div>;
     if (activeTab === 'gallery') return <div><Gallery/></div>;
     if (activeTab === 'committee') return <div><Committee/></div>
+    if (activeTab === 'user') return <div><User/></div>
+    
 
     if (showMessageOnce) {
       return (
@@ -152,6 +155,23 @@ const Dashboard = () => {
           } transition duration-200`}  
       >
        ಸಮಿತಿ
+      </button>
+      
+      )}
+
+{(userRole === 'admin') && (
+        <button
+        onClick={() => {
+          setActiveTab('user');
+          setShowMessageOnce(false);
+        }}
+        className={`relative flex items-center justify-center gap-2 text-center p-2 rounded-lg  font-BebasNeue text-lg ${
+          activeTab === 'user'
+              ? 'bg-gradient-to-r from-purple-700 to-gray-900 text-white'
+              : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-purple-700 to-gray-900'
+          } transition duration-200`}  
+      >
+       ಅಧಿಕಾರ
       </button>
       
       )}
