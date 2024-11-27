@@ -1,12 +1,22 @@
 import React, { useState } from 'react';
 import { api } from '~/utils/api';
 import toast from 'react-hot-toast';
+import UploadComponent from '../UploadComponent';
+import Image from 'next/image';
+
+interface CommitteeCoreItem {
+  id: number;
+  Post: string;
+  Name: string;
+  photo: string;
+}
 
 const CommitteeCore: React.FC = () => {
   const addCommitteeCore = api.committee.addCommitteeCore.useMutation();
   const updateCommitteeCore = api.committee.updateCommitteeCore.useMutation();
-  const { data: committeeCore, isLoading: committeeCoreLoading, isError: committeeCoreError, refetch } = api.committee.getAllCommitteeCore.useQuery();
-
+  const updateCommitteeCorewithPhoto = api.committee.updateCommitteeCorewithPhoto.useMutation();
+  const { data: committeeCore, isLoading: committeeCoreLoading, isError: committeeCoreError, refetch } = api.committee.getAllCommitteeCore.useQuery<CommitteeCoreItem[]>();
+  const [uploadUrl, setUploadUrl] = useState<string>('');
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [post, setPost] = useState('');
@@ -27,6 +37,11 @@ const CommitteeCore: React.FC = () => {
     setPost('');
     setName('');
     setCurrentId(null);
+    setUploadUrl(''); // Clear the upload URL when adding a new entry
+  };
+
+  const handleUploadComplete = (url: string) => {
+    setUploadUrl(url); // Update the URL when the image upload is complete
   };
 
   const handleRowDoubleClick = (id: number, post: string, name: string) => {
@@ -35,6 +50,7 @@ const CommitteeCore: React.FC = () => {
     setPost(post);
     setName(name);
     setCurrentId(id);
+    setUploadUrl('');
   };
 
   const handlePopupClose = () => {
@@ -43,32 +59,44 @@ const CommitteeCore: React.FC = () => {
     setPost('');
     setName('');
     setCurrentId(null);
+    setUploadUrl(''); // Clear the state on close
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!post || !name) {
-      toast.error('Please fill in all fields.', toastStyle);
+      toast.error('Please fill in all fields and upload an image.', toastStyle);
       return;
     }
 
     try {
       if (isEditMode && currentId !== null) {
-        // Update existing committee core
-        const result = await updateCommitteeCore.mutateAsync({ id: currentId, Post: post, Name: name });
-        console.log('Committee Core updated:', result);
-        toast.success('Committee Core Updated');
+        if(!uploadUrl)
+        {
+          // Update existing committee core
+          const result = await updateCommitteeCore.mutateAsync({ id: currentId, Post: post, Name: name});
+          console.log('Committee Core updated:', result);
+          toast.success('Committee Core Updated');
+        }
+        else
+        {
+          const result = await updateCommitteeCorewithPhoto.mutateAsync({ id: currentId, Post: post, Name: name, imagePath: uploadUrl ?? null});
+          console.log('Committee Core updated:', result);
+          toast.success('Committee Core Updated');
+        }
       } else {
         // Add new committee core
-        const result = await addCommitteeCore.mutateAsync({ Post: post, Name: name });
+        const result = await addCommitteeCore.mutateAsync({ Post: post, Name: name, imagePath: uploadUrl ?? null});
         console.log('Committee Core added:', result);
         toast.success('Committee Core Added');
       }
 
+      // Close the popup and reset form
       setIsPopupOpen(false);
       setPost('');
       setName('');
+      setUploadUrl('');
       void refetch();
     } catch {
       toast.error('Error saving Committee Core', toastStyle);
@@ -78,7 +106,6 @@ const CommitteeCore: React.FC = () => {
   return (
     <div className="p-4">
       <h2 className="flex justify-center w-full text-2xl text-bold mb-8 py-5 text-center">ಮುಖ್ಯ ಸಮಿತಿ ನಿರ್ವಹಣೆ</h2>
-
       <div className="mb-4 flex gap-2 flex-wrap justify-center">
         <button onClick={handleAddClick} className="p-2 border border-slate-700 rounded-xl w-52 text-white h-12 bg-black font-BebasNeue">
           ಮುಖ್ಯ ಸದಸ್ಯರನ್ನು ಸೇರಿಸಿ
@@ -94,6 +121,7 @@ const CommitteeCore: React.FC = () => {
           <table className="min-w-full border border-gray-300">
             <thead className="bg-white">
               <tr>
+                <th className="text-black border py-2 px-4 border-b border-slate-700 text-center">ಫೋಟೋ</th>
                 <th className="text-black border py-2 px-4 border-b border-slate-700 text-center">ಪದನಾಮ</th>
                 <th className="text-black border py-2 px-4 border-b border-slate-700 text-center">ಹೆಸರು</th>
               </tr>
@@ -105,6 +133,15 @@ const CommitteeCore: React.FC = () => {
                   className="hover:bg-gray-50 hover:text-black"
                   onDoubleClick={() => handleRowDoubleClick(item.id, item.Post, item.Name)}
                 >
+                  <td className="py-2 px-4 border-b border-slate-700 text-center">
+                    <Image
+                      src={item.photo}
+                      alt={item.photo}
+                      width={25}
+                      height={25}
+                      className="h-28 w-28 object-cover"
+                    />
+                  </td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center">{item.Post}</td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center">{item.Name}</td>
                 </tr>
@@ -140,6 +177,7 @@ const CommitteeCore: React.FC = () => {
                 className="block w-full mb-4 p-2 rounded-md text-black"
                 required
               />
+              <UploadComponent onUploadComplete={handleUploadComplete} resetUpload={() => setUploadUrl('')} />
               <button type="submit" className="w-full bg-blue-600 text-white p-2 my-2 rounded">
                 {isEditMode ? 'ಅಪ್‌ಡೇಟ್' : 'ಸಮರ್ಪಿಸಿ'}
               </button>

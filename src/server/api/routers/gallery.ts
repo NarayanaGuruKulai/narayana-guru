@@ -13,11 +13,11 @@ export const galleryRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       // Default to today's date if no date is provided
       const uploadDate = input.uploadDate ?? new Date().toISOString();
-
+      const imageUrl = `https://utfs.io/f/${input.imagePath}`;
       // Create a new gallery entry
       const newImage = await ctx.db.gallery.create({
         data: {
-          imagePath: input.imagePath,
+          imagePath: imageUrl,
           uploadDate: new Date(uploadDate), // Ensure the date is in the correct format
         },
       });

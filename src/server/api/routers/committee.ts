@@ -8,12 +8,16 @@ export const committeeRouter = createTRPCRouter({
       z.object({
         Post: z.string().min(1, 'Post is required'),
         Name: z.string().min(1, 'Name is required'),
+        imagePath: z.string().min(1, "Image URL is required"),
+
       })
     )
     .mutation(async ({ ctx, input }) => {
+      const imageUrl = `https://utfs.io/f/${input.imagePath}`;
       const newCommitteeCore = await ctx.db.committeeCore.create({
         data: {
           Post: input.Post,
+          photo: imageUrl ?? 'https://utfs.io/f/0yks13NtToBiMOM3L9fzWI7ScAKGqQtv4FT8wMPEHbihruCg',  // Use a default image if none is provided
           Name: input.Name,
         },
       });
@@ -72,6 +76,7 @@ export const committeeRouter = createTRPCRouter({
         id: z.number().min(1, 'ID is required'),
         Post: z.string().min(1, 'Post is required'),
         Name: z.string().min(1, 'Name is required'),
+
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -79,6 +84,46 @@ export const committeeRouter = createTRPCRouter({
         where: { id: input.id },
         data: {
           Post: input.Post,
+          Name: input.Name,
+        },
+      });
+      return updatedCommitteeCore;
+    }),
+    updateCommitteeCorewithPhoto: protectedProcedure
+    .input(
+      z.object({
+        id: z.number().min(1, 'ID is required'),
+        Post: z.string().min(1, 'Post is required'),
+        Name: z.string().min(1, 'Name is required'),
+        imagePath: z.string().min(1, 'Image is required'),
+
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const imageUrl = `https://utfs.io/f/${input.imagePath}`;
+      const updatedCommitteeCore = await ctx.db.committeeCore.update({
+        where: { id: input.id },
+        data: {
+          Post: input.Post,
+          Name: input.Name,
+          photo: imageUrl,
+        },
+      });
+      return updatedCommitteeCore;
+    }),
+
+    updateCommittee: protectedProcedure
+    .input(
+      z.object({
+        id: z.number().min(1, 'ID is required'),
+        Name: z.string().min(1, 'Name is required'),
+
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const updatedCommitteeCore = await ctx.db.committeeMembers.update({
+        where: { id: input.id },
+        data: {
           Name: input.Name,
         },
       });

@@ -4,17 +4,26 @@ import toast from 'react-hot-toast';
 
 const CommitteeMembers: React.FC = () => {
   const addCommitteeMember = api.committee.addCommitteeMember.useMutation();
+  const updateCommitteeCore = api.committee.updateCommittee.useMutation();
   const { data: committeeMembers, isLoading, isError, refetch } = api.committee.getAllCommitteeMembers.useQuery();
-
+  const [currentId, setCurrentId] = useState<number | null>(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [name, setName] = useState('');
-
+  const [isEditMode, setIsEditMode] = useState(false);
   const toastStyle = {
     style: {
       borderRadius: '10px',
       background: 'black',
       color: 'white',
     },
+  };
+
+  
+  const handleRowDoubleClick = (id: number, name: string) => {
+    setIsPopupOpen(true);
+    setIsEditMode(true);
+    setName(name);
+    setCurrentId(id);
   };
 
   const handleAddClick = () => {
@@ -35,15 +44,25 @@ const CommitteeMembers: React.FC = () => {
     }
 
     try {
-      const result = await addCommitteeMember.mutateAsync({ Name: name });
-      console.log('Committee Member added:', result);
+      if (isEditMode && currentId !== null) {
+          const result = await updateCommitteeCore.mutateAsync({ id: currentId, Name: name});
+          console.log('Committee Member updated:', result);
+          toast.success('Committee Member Updated');
+        
+      } else {
+        // Add new committee core
+        const result = await addCommitteeMember.mutateAsync({ Name: name});
+        console.log('Committee Member added:', result);
+        toast.success('Committee Member Added');
+      }
+
       setIsPopupOpen(false);
       setName('');
-      void refetch();
-      toast.success('Committee Member Added');
-    } catch {
-      toast.error('Error adding Committee Member', toastStyle);
+      await refetch();
     }
+      catch {
+        toast.error('Error saving Committee Core', toastStyle);
+      }
   };
 
   return (
@@ -70,7 +89,10 @@ const CommitteeMembers: React.FC = () => {
             </thead>
             <tbody>
               {committeeMembers?.map((item) => (
-                <tr key={item.id} className="hover:bg-gray-50 hover:text-black">
+                <tr key={item.id} 
+                className="hover:bg-gray-50 hover:text-black"
+                onDoubleClick={() => handleRowDoubleClick(item.id, item.Name)}
+                >
                   <td className="py-2 px-4 border-b border-slate-700 text-center">{item.Name}</td>
                 </tr>
               ))}
