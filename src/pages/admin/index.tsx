@@ -67,8 +67,8 @@ const Dashboard = () => {
           }}
           className={`flex-1 text-center p-2 rounded-lg font-BebasNeue text-lg ${
             activeTab === 'memberships'
-              ? 'bg-gradient-to-r from-purple-700 to-gray-900 text-white'
-              : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-purple-700 to-gray-900'
+              ? 'bg-gradient-to-r from-orange-400 to-gray-900 text-white'
+              : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-orange-400 to-gray-900'
           } transition duration-200`}  
         >
           
@@ -83,8 +83,8 @@ const Dashboard = () => {
           }}
           className={`flex-1 text-center p-2 rounded-lg font-BebasNeue text-lg ${
             activeTab === 'ledger'
-              ? 'bg-gradient-to-r from-purple-700 to-gray-900 text-white'
-              : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-purple-700 to-gray-900'
+              ? 'bg-gradient-to-r from-orange-400 to-gray-900 text-white'
+              : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-orange-400 to-gray-900'
           } transition duration-200`}                
         >
           ಲೆಡ್ಜರ್
@@ -99,8 +99,8 @@ const Dashboard = () => {
         }}
         className={`relative flex items-center justify-center gap-2 text-center p-2 rounded-lg  font-BebasNeue text-lg ${
           activeTab === 'bhajane'
-              ? 'bg-gradient-to-r from-purple-700 to-gray-900 text-white'
-              : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-purple-700 to-gray-900'
+              ? 'bg-gradient-to-r from-orange-400 to-gray-900 text-white'
+              : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-orange-400 to-gray-900'
           } transition duration-200`}  
       >
         ಭಜನೆ
@@ -116,8 +116,8 @@ const Dashboard = () => {
         }}
         className={`relative flex items-center justify-center gap-2 text-center p-2 rounded-lg  font-BebasNeue text-lg ${
           activeTab === 'hallbooking'
-              ? 'bg-gradient-to-r from-purple-700 to-gray-900 text-white'
-              : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-purple-700 to-gray-900'
+              ? 'bg-gradient-to-r from-orange-400 to-gray-900 text-white'
+              : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-orange-400 to-gray-900'
           } transition duration-200`}  
       >
         ಹಾಲ್ ಬುಕಿಂಗ್
@@ -133,8 +133,8 @@ const Dashboard = () => {
         }}
         className={`relative flex items-center justify-center gap-2 text-center p-2 rounded-lg  font-BebasNeue text-lg ${
           activeTab === 'gallery'
-              ? 'bg-gradient-to-r from-purple-700 to-gray-900 text-white'
-              : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-purple-700 to-gray-900'
+              ? 'bg-gradient-to-r from-orange-400 to-gray-900 text-white'
+              : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-orange-400 to-gray-900'
           } transition duration-200`}  
       >
         ಗ್ಯಾಲರಿ
@@ -150,8 +150,8 @@ const Dashboard = () => {
         }}
         className={`relative flex items-center justify-center gap-2 text-center p-2 rounded-lg  font-BebasNeue text-lg ${
           activeTab === 'committee'
-              ? 'bg-gradient-to-r from-purple-700 to-gray-900 text-white'
-              : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-purple-700 to-gray-900'
+              ? 'bg-gradient-to-r from-orange-400 to-gray-900 text-white'
+              : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-orange-400 to-gray-900'
           } transition duration-200`}  
       >
        ಸಮಿತಿ
@@ -167,8 +167,8 @@ const Dashboard = () => {
         }}
         className={`relative flex items-center justify-center gap-2 text-center p-2 rounded-lg  font-BebasNeue text-lg ${
           activeTab === 'user'
-              ? 'bg-gradient-to-r from-purple-700 to-gray-900 text-white'
-              : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-purple-700 to-gray-900'
+              ? 'bg-gradient-to-r from-orange-400 to-gray-900 text-white'
+              : 'bg-gray-800 text-gray-300 hover:bg-gradient-to-r from-orange-400 to-gray-900'
           } transition duration-200`}  
       >
        ಅಧಿಕಾರ

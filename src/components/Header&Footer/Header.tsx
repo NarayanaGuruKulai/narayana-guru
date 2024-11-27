@@ -17,7 +17,6 @@ const userLinks = [
   { href: "/bookings", label: "ಬುಕಿಂಗ್"   },
   { href: "/gallery", label: "ಗ್ಯಾಲರಿ"   },
   { href: "/committee", label: "ಸಮಿತಿ",  },
-  { href: "/about", label: "ಮಾಹಿತಿ"  },
 ];
 
 const Header: FC = () => {
@@ -36,13 +35,13 @@ const Header: FC = () => {
   return (
     <div className={`relative ${isOpen ? "overflow-hidden" : ""}`}>
     <header className="sticky-header h-20 backdrop-blur-sm shadow-md p-4 flex items-center justify-between flex-wrap md:justify-start z-50 w-full bg-black">
-      <div className="flex justify-center items-center w-full md:w-auto pl-5">
+      <div className="flex justify-center items-center w-full md:w-auto pl-5  h-full">
           <Image
-            src="https://utfs.io/f/SVkywvr9y613jkgmVVBN8aJPgDbCAkQ3VmIfG9eUXsF2coMS"
+            src="https://utfs.io/f/SVkywvr9y613lgyRH7PuQa6o2BxDbV1eOXALdHrw98iEMGWl"
             alt="Logo"
-            width={200}
-            height={100}
-            className="w-auto h-auto max-w-24"
+            width={600}
+            height={200}
+            className="w-auto h-full max-w-60"
           />
       </div>
 
@@ -56,18 +55,18 @@ const Header: FC = () => {
                     href={link.href}
                     label={link.label}
                     active={pathname === link.href}
-                    className="text-xl  relative top-1"
+                    className="text-xl relative top-1"
                   />
                 </div>
               ))
             ) : (
               userLinks.map((link) => (
-                <div key={link.href} className="flex items-center gap-1">
+                <div key={link.href} className="flex items-center justify-center gap-1 h-full ">
                   <NavLink
                     href={link.href}
                     label={link.label}
                     active={link.href === "/" ? pathname === link.href : pathname.startsWith(link.href)}
-                    className="text-xl  relative top-1"
+                    className="text-xl relative top-1"
                   />
                 </div>
               ))
