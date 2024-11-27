@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/api/trpc";
 
 export const hallBookingRouter = createTRPCRouter({
   addHallBooking: protectedProcedure
@@ -37,6 +37,10 @@ export const hallBookingRouter = createTRPCRouter({
       });
     }),
 
+    getAllHallBookingsCalendar: publicProcedure.query(async ({ ctx }) => {
+      const booking = await ctx.db.hallBooking.findMany();
+      return booking ?? [];
+    }),
   
   deleteHallBooking: protectedProcedure
   .input(

@@ -13,6 +13,11 @@ export default {
       fontFamily: {
         sans: ["var(--font-geist-sans)", ...fontFamily.sans],
       },
+      colors: {
+        lightgreen: '#90EE90',
+        brown: '#8B4513',
+        lightblue: '#ADD8E6',
+      }
     },
   },
   plugins: [],

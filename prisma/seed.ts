@@ -100,7 +100,7 @@ await prisma.bhajane.createMany({
     // Seeding Gallery
     await prisma.gallery.createMany({
       data: Array.from({ length: 50 }, (_,) => ({
-        imagePath: `https://utfs.io/f/SVkywvr9y613jkgmVVBN8aJPgDbCAkQ3VmIfG9eUXsF2coMS`,
+        imagePath: `https://utfs.io/f/SVkywvr9y613CGO0eAFvbcPd3SwNR4eOXqAmU8KujiL0Qxs7`,
         uploadDate: new Date(),
       })),
     });
@@ -110,6 +110,7 @@ await prisma.bhajane.createMany({
       data: Array.from({ length: 50 }, (_, index) => ({
         Post: `Post ${index + 1}`,
         Name: `Core Member ${index + 1}`,
+        photo: `https://utfs.io/f/SVkywvr9y613jkgmVVBN8aJPgDbCAkQ3VmIfG9eUXsF2coMS`,
       })),
     });
 

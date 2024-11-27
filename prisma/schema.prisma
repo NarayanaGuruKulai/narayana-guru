@@ -129,6 +129,7 @@ model CommitteeCore {
     id   Int      @id @default(autoincrement()) 
     Post    String
     Name    String
+    photo     String
 }
 
 model CommitteeMembers {
