@@ -8,7 +8,7 @@ import "~/styles/globals.css";
 import { Toaster } from "react-hot-toast";
 import Header from "~/components/Header&Footer/Header";
 import Footer from "~/components/Header&Footer/Footer";
-
+//Commit
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
