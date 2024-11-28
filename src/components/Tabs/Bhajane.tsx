@@ -52,28 +52,58 @@ const Bhajane: React.FC = () => {
       toast.error('Failed to delete the entry', toastStyle);
     }
   };
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
 
-    if (!name || !date) {
-      toast.error("Please fill in all the required fields.", toastStyle);
-      return;
-    }
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
 
-    try {
-      const result = await addBhajane.mutateAsync({
-        name,
-        date,
+  // Ensure that `name` is never undefined or null
+  const validName = name ?? ""; // Fallback to an empty string if `name` is undefined or null
+  const validDate = date ?? ""; // Fallback to an empty string if `date` is undefined or null
+
+  if (!validName.trim() || !validDate) {
+    toast.error("Please fill in all the required fields.", toastStyle);
+    return;
+  }
+
+  // Regular expression to split input by the numbering pattern (e.g., "1.", "2.", etc.)
+  const nameEntries = validName
+    .split(/\d+\./) // Split by one or more digits followed by a period
+    .map((entry) => entry.trim()) // Trim whitespace from each entry
+    .filter((entry) => entry.length > 0); // Remove any empty entries
+
+  if (nameEntries.length === 0) {
+    toast.error("Please enter valid names.", toastStyle);
+    return;
+  }
+
+  try {
+    // If multiple entries, process and upload each one
+    if (nameEntries.length > 1) {
+      for (const entryName of nameEntries) {
+        await addBhajane.mutateAsync({
+          name: entryName,
+          date: validDate,
+        });
+      }
+      toast.success("Data Processed and Uploaded", toastStyle); // Data processed (multiple names)
+    } else {
+      // If a single entry, upload directly
+      await addBhajane.mutateAsync({
+        name: nameEntries[0] ?? validName,
+        date: validDate,
       });
-
-      console.log("Bhajane added:", result);
-      handlePopupClose();
-      void refetch();
-      toast.success("Bhajane Added", toastStyle);
-    } catch {
-      toast.error("Error adding Bhajane", toastStyle);
+      toast.success("Data Uploaded Directly", toastStyle); // Direct upload (single name)
     }
-  };
+
+    console.log("Bhajane added:", nameEntries);
+    handlePopupClose();
+    void refetch();
+  } catch {
+    toast.error("Error adding Bhajane", toastStyle);
+  }
+};
+
+  
 
   return (
     <div className="p-4">
