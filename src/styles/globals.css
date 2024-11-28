@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .custom-calender {
-    height: 40vh;
+    height: 50vh;
 }
 
 .react-calendar__tile--highlight {
