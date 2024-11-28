@@ -89,7 +89,7 @@ const Booking = () => {
                       booking.BookingType === 'other' ? 'ಇತರ' : ''} ಬುಕಿಂಗ್</strong>
                     <div>{booking.BookingNote}</div>
                     <div>
-                      {booking.FromTime} - {booking.ToTime}
+                      {booking.BookingTime}
                     </div>
                   </li>
                 ))

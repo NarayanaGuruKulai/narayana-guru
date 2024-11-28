@@ -9,18 +9,17 @@ const HallBooking: React.FC = () => {
     BookingDate: string;
     BookingType: "marriagereceptionengagement" | "lastrites" | "other";
     BookingNote: string;
-    FromTime: string;
-    ToTime: string;
+    BookingTime: "morning_to_evening" | "evening_to_night";
+
   }>({
     BookingDate: "",
     BookingType: "marriagereceptionengagement", // Default value
     BookingNote: "",
-    FromTime: "",
-    ToTime: "",
+    BookingTime: "morning_to_evening",
   });
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
   const [selectedHallBookingId, setSelectedHallBookingId] = useState<number | null>(null);
-  const { BookingDate, BookingType, BookingNote, FromTime, ToTime } = formData;
+  const { BookingDate, BookingType, BookingNote, BookingTime } = formData;
   const [limit, setLimit] = useState(10); 
   const  deleteHallBooking= api.hallBooking.deleteHallBooking.useMutation();
   const addHallBooking = api.hallBooking.addHallBooking.useMutation();
@@ -43,15 +42,14 @@ const HallBooking: React.FC = () => {
       BookingDate: "",
       BookingType: "marriagereceptionengagement", // Default value
       BookingNote: "",
-      FromTime: "",
-      ToTime: "",
+      BookingTime: "morning_to_evening",
     });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!BookingDate || !FromTime || !ToTime || !BookingNote) {
+    if (!BookingDate || !BookingTime || !BookingNote) {
       toast.error("Please fill in all the required fields.", toastStyle);
       return;
     }
@@ -86,15 +84,18 @@ const HallBooking: React.FC = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-
+  
     setFormData((prev) => ({
       ...prev,
       [name]:
         name === "BookingType"
-          ? (value as "marriagereceptionengagement" | "lastrites" | "other") // Type assertion here
+          ? (value as "marriagereceptionengagement" | "lastrites" | "other")
+          : name === "BookingTime"
+          ? (value as "morning_to_evening" | "evening_to_night")
           : value,
     }));
   };
+  
 
   return (
     <div className="p-4">
@@ -156,10 +157,8 @@ const HallBooking: React.FC = () => {
                     {entry.BookingNote}
                   </td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center">
-                    {entry.FromTime}
-                  </td>
-                  <td className="py-2 px-4 border-b border-slate-700 text-center">
-                    {entry.ToTime}
+                    {entry.BookingTime === 'morning_to_evening' ? 'ಬೆಳಿಗ್ಗೆಯಿಂದ ಸಂಜೆಯವರೆಗೆ' :
+                    entry.BookingTime === 'evening_to_night' ? 'ಸಂಜೆಯಿಂದ ರಾತ್ರಿ' : ''}
                   </td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center">
                     <button
@@ -192,7 +191,7 @@ const HallBooking: React.FC = () => {
                 name="BookingDate"
                 value={BookingDate}
                 onChange={handleInputChange}
-                className="w-full mb-4 p-2 border rounded"
+                className="w-full mb-4 p-2 border rounded text-black"
                 required
               />
 
@@ -201,7 +200,7 @@ const HallBooking: React.FC = () => {
                 name="BookingType"
                 value={BookingType}
                 onChange={handleInputChange}
-                className="w-full mb-4 p-2 border rounded"
+                className="w-full mb-4 p-2 border rounded text-black"
               >
                 <option value="marriagereceptionengagement">ಮದುವೆ/ಆರತಕ್ಷತೆ/ನಿಶ್ಚಿತಾರ್ಥ</option>
                 <option value="lastrites">ಉತ್ತರಕ್ರಿಯೆ</option>
@@ -214,30 +213,21 @@ const HallBooking: React.FC = () => {
                 name="BookingNote"
                 value={BookingNote}
                 onChange={handleInputChange}
-                className="w-full mb-4 p-2 border rounded"
+                className="w-full mb-4 p-2 border rounded text-black"
                 required
               />
 
-              <label className="block mb-2 text-white text-left">ಸಮಯದಿಂದ:</label>
-              <input
-                type="time"
-                name="FromTime"
-                value={FromTime}
+              <label className="block mb-2 text-white text-left">ಬುಕಿಂಗ್ ಸಮಯ:</label>
+              <select
+                name="BookingTime"
+                value={BookingTime}
                 onChange={handleInputChange}
-                className="w-full mb-4 p-2 border rounded"
-                required
-              />
-
-              <label className="block mb-2 text-white text-left">ಸಮಯವರಗೆ:</label>
-              <input
-                type="time"
-                name="ToTime"
-                value={ToTime}
-                onChange={handleInputChange}
-                className="w-full mb-4 p-2 border rounded"
-                required
-              />
-
+                className="w-full mb-4 p-2 border rounded text-black"
+              >
+                <option value="morning_to_evening">
+                ಬೆಳಿಗ್ಗೆಯಿಂದ ಸಂಜೆಯವರೆಗೆ</option>
+                <option value="evening_to_night">ಸಂಜೆಯಿಂದ ರಾತ್ರಿ</option>
+              </select>
               <button type="submit" className="w-full bg-blue-600 text-white p-2 my-2 rounded ">
               ಸಮರ್ಪಿಸಿ
               </button>

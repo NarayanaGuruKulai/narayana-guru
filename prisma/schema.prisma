@@ -108,9 +108,12 @@ model hallBooking {
     BookingDate String
     BookingType BookingTypes
     BookingNote String
-    FromTime String
-    ToTime  String
+    BookingTime  BookingTimes
+}
 
+enum BookingTimes {
+    morning_to_evening
+    evening_to_night
 }
 
 enum BookingTypes {

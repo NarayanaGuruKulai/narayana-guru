@@ -8,8 +8,8 @@ export const hallBookingRouter = createTRPCRouter({
         BookingDate: z.string(),
         BookingType: z.enum(["marriagereceptionengagement", "lastrites", "other"]),
         BookingNote: z.string(),
-        FromTime: z.string(),
-        ToTime: z.string(),
+        BookingTime: z.enum(["morning_to_evening", "evening_to_night"]),
+
       })
     )
     .mutation(async ({ input, ctx }) => {
@@ -18,8 +18,7 @@ export const hallBookingRouter = createTRPCRouter({
           BookingDate: input.BookingDate,
           BookingType: input.BookingType,
           BookingNote: input.BookingNote,
-          FromTime: input.FromTime,
-          ToTime: input.ToTime,
+          BookingTime: input.BookingTime,
         },
       });
       return hallBooking;
