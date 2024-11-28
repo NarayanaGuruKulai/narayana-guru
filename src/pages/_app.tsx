@@ -18,7 +18,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
   return (
     <SessionProvider session={session}>
       <Head>
-        <title>BNGSSS Kulai</title>
+        <title>Brahmashree Narayana Guru Samaja Seva Sangha</title>
         <meta
           name="description"
           content="BNGSSS Kulai"

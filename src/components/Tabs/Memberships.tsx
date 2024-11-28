@@ -18,6 +18,8 @@ type Member = {
 
 const Memberships: React.FC = () => {
   const addMember = api.memberships.addMember.useMutation();
+  const updateMembership = api.memberships.updateMembership.useMutation();
+  const updateMembershipwithPhoto = api.memberships.updateMembershipwithPhoto.useMutation();
   const deleteMember = api.memberships.deleteMembership.useMutation();
   const {
     data: members,
@@ -40,7 +42,8 @@ const Memberships: React.FC = () => {
   const [nameSearch, setNameSearch] = useState<string>('');
   const [receiptNoSearch, setReceiptNoSearch] = useState<string>('');
   const [typeFilter, setTypeFilter] = useState<string>(''); // New filter state
-
+  const [currentId, setCurrentId] = useState<number | null>(null);
+  const [isEditMode, setIsEditMode] = useState(false);
   const toastStyle = {
     style: {
       borderRadius: '10px',
@@ -59,6 +62,7 @@ const Memberships: React.FC = () => {
 
   const handlePopupClose = () => {
     setIsPopupOpen(false);
+    setIsEditMode(false);
   };
 
   const handleDeleteClick = (id: number) => {
@@ -80,43 +84,68 @@ const Memberships: React.FC = () => {
     }
   };
 
+  const handleRowDoubleClick = (id: number, name: string, address: string , date: string , type: string, receiptno: number) => {
+    setIsPopupOpen(true);
+    setIsEditMode(true);
+    setName(name);
+    setCurrentId(id);
+    setAddress(address);
+    setDate(date);
+    setType(type as 'ajeeva' | 'poshaka' | 'mrutha');
+    setReceiptNo(receiptno);
+    setUploadUrl('');
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+  
+    // Validate required fields
     if (!name || !receiptno || !type || !address || !date) {
       toast.error('Please fill in all the required fields.', toastStyle);
       return;
     }
-
+  
+    // Validate image upload if required
     if (!uploadUrl && newImage) {
       toast.error('Select and Upload the Image', toastStyle);
       return;
     }
-
+  
     try {
-      const result = await addMember.mutateAsync({
-        name,
-        address,
-        date,
-        type,
-        photo: uploadUrl || '',
-        receiptno,
-      });
-
-      console.log('Member added:', result);
-      setIsPopupOpen(false);
-      setUploadUrl('');
-      setNewImage('');
-      setName('');
-      setAddress('');
-      setDate('');
-      setReceiptNo(1);
-      void refetch();
-      toast.success('Member Added');
-    } catch {
+      const memberData = { Name: name, Address: address, Date: date, Type: type, ReceiptNo: receiptno };
+      let result;
+  
+      if (isEditMode && currentId !== null) {
+        // Update logic
+        if (!uploadUrl) {
+          // Update without photo
+          result = await updateMembership.mutateAsync({ id: currentId, ...memberData });
+        } else {
+          // Update with photo
+          result = await updateMembershipwithPhoto.mutateAsync({ id: currentId, ...memberData, ImagePath: uploadUrl });
+        }
+        console.log('Committee Core updated:', result);
+        toast.success('Committee Core Updated');
+      } else {
+        // Add new member
+        result = await addMember.mutateAsync({name,address,date,type,photo: uploadUrl || '',receiptno,});
+        console.log('Member added:', result);
+        toast.success('Member Added');
+      }
+    } catch (error) {
       toast.error('Member Not Added', toastStyle);
+      console.error(error); // Log the error for debugging purposes
     }
+    setIsPopupOpen(false);
+    setUploadUrl('');
+    setNewImage('');
+    setName('');
+    setAddress('');
+    setDate('');
+    setReceiptNo(0);
+    void refetch();
   };
+  
 
   // Filter members based on the search inputs and type filter
 const filteredMembers = members?.filter((member) => {
@@ -188,7 +217,9 @@ const filteredMembers = members?.filter((member) => {
             </thead>
             <tbody>
               {filteredMembers?.map((member) => (
-                <tr key={member.id} className="hover:bg-gray-50 hover:text-black">
+                <tr key={member.id} 
+                className="hover:bg-gray-50 hover:text-black"
+                onDoubleClick={() => handleRowDoubleClick(member.id, member.name, member.address, member.date, member.type ,member.receiptno)}>
                   <td className="py-2 px-4 border-b border-slate-700 text-center flex justify-center">
                     <Image
                       src={member.photo}
@@ -229,7 +260,8 @@ const filteredMembers = members?.filter((member) => {
       {isPopupOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur z-50">
           <div className="bg-black p-10 rounded-3xl shadow-lg relative text-center w-96">
-            <h2 className="text-2xl font-bold text-white mb-4">ಸದಸ್ಯರನ್ನು ಸೇರಿಸಿ</h2>
+            <h2 className="text-2xl font-bold text-white mb-4">
+            {isEditMode ? 'ಸದಸ್ಯರನ್ನು ಬದಲಿಸಿ' : 'ಸದಸ್ಯರನ್ನು ಸೇರಿಸಿ'}</h2>
             <button onClick={handlePopupClose} className="absolute top-10 right-10 text-white text-2xl font-bold">
               &times;
             </button>
@@ -275,7 +307,7 @@ const filteredMembers = members?.filter((member) => {
                 type="submit"
                 className="p-2 border border-gray-300 rounded-lg bg-green-500 text-white font-bold"
               >
-                ಸೇರ್ ಮಾಡಿ
+                {isEditMode ? 'ಅಪ್‌ಡೇಟ್' : 'ಸಮರ್ಪಿಸಿ'}
               </button>
             </form>
           </div>

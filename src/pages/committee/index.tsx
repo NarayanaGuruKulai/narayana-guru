@@ -40,9 +40,9 @@ const Committee = () => {
 
   return (
     <div className="p-6 bg-black min-h-screen">
-      <h1 className="text-2xl md:text-5xl text-white text-center mb-8 mt-4 md:mb-4 md:mt-8 z-20">
+      <h2 className="text-2xl md:text-5xl text-white text-center mb-8 mt-4 md:mb-4 md:mt-8 z-20">
       ಸಮಿತಿ
-      </h1>
+      </h2>
 
       {/* Core Committee Section */}
       <section className="z-20 py-6 md:py-12 px-4 md:px-6 flex flex-col md:flex-row flex-wrap justify-center gap-6 md:gap-8 items-center">
@@ -58,7 +58,9 @@ const Committee = () => {
 
       {/* Committee Members Section */}
       <section className="mt-12">
-        <h2 className="text-2xl text-white text-center mb-4">Committee Members</h2>
+      <h2 className="text-2xl md:text-5xl text-white text-center mb-8 mt-4 md:mb-4 md:mt-8 z-20">
+      ಸಮಿತಿ ಸದಸ್ಯರು
+      </h2>
         <ul className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4 text-white text-center">
           {safeCommitteeMembers.map((member) => (
             <li key={member.id} className="text-lg mb-2">{member.Name}</li>

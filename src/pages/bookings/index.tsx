@@ -9,8 +9,7 @@ interface Booking {
   BookingDate: string;
   BookingType: 'marriagereceptionengagement' | 'lastrites' | 'other';
   BookingNote: string;
-  FromTime: string;
-  ToTime: string;
+  BookingTime: "morning_to_evening" | "evening_to_night";
 }
 
 const Booking = () => {
@@ -71,25 +70,26 @@ const Booking = () => {
 
       <div className="mt-10">
         <h2 className="text-xl font-semibold mb-4 text-center">
-          Bookings for {format(selectedDate, 'dd/MM/yyyy')}
+          ಬುಕಿಂಗ್ ದಿನಾಂಕ : {format(selectedDate, 'dd/MM/yyyy')}
         </h2>
         {isLoading ? (
           <p>Loading bookings...</p>
         ) : (
           <ul>
             {bookings.filter((booking) => isSameDay(new Date(booking.BookingDate), selectedDate)).length === 0 ? (
-              <p className='text-center'>ಈ ದಿನಕ್ಕೆ ಯಾವುದೇ ಬುಕಿಂಗ್ ಇಲ್ಲ / No bookings for this day.</p>
+              <p className='text-center'>ಈ ದಿನಕ್ಕೆ ಯಾವುದೇ ಬುಕಿಂಗ್ ಇಲ್ಲ </p>
             ) : (
               bookings
                 .filter((booking) => isSameDay(new Date(booking.BookingDate), selectedDate))
                 .map((booking) => (
                   <li key={booking.id} className="mb-2 p-2 border rounded-lg">
-                    <strong>{booking.BookingType === 'marriagereceptionengagement' ? 'ಮದುವೆ/ಆರತಕ್ಷತೆ/ನಿಶ್ಚಿತಾರ್ಥ' :
+                    <div><b>ಬುಕಿಂಗ್ ಪ್ರಕಾರ:</b> {booking.BookingType === 'marriagereceptionengagement' ? 'ಮದುವೆ/ಆರತಕ್ಷತೆ/ನಿಶ್ಚಿತಾರ್ಥ' :
                       booking.BookingType === 'lastrites' ? 'ಉತ್ತರಕ್ರಿಯೆ' :
-                      booking.BookingType === 'other' ? 'ಇತರ' : ''} ಬುಕಿಂಗ್</strong>
-                    <div>{booking.BookingNote}</div>
-                    <div>
-                      {booking.BookingTime}
+                      booking.BookingType === 'other' ? 'ಇತರ' : ''} ಬುಕಿಂಗ್</div>
+                    <div><b>ಬುಕಿಂಗ್ ಹೆಸರು : </b> {booking.BookingNote}</div>
+                    <div><b>ಬುಕಿಂಗ್ ಸಮಯ : </b>
+                    {booking.BookingTime === 'morning_to_evening' ? 'ಬೆಳಿಗ್ಗೆಯಿಂದ ಸಂಜೆಯವರೆಗೆ' :
+                    booking.BookingTime === 'evening_to_night' ? 'ಸಂಜೆಯಿಂದ ರಾತ್ರಿ' : ''}
                     </div>
                   </li>
                 ))

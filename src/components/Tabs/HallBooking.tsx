@@ -132,10 +132,7 @@ const HallBooking: React.FC = () => {
                 ಬುಕಿಂಗ್ ನೋಟ್ 
                 </th>
                 <th className="text-black border py-2 px-4 border-b border-slate-700 text-center">
-                ಸಮಯದಿಂದ
-                </th>
-                <th className="text-black border py-2 px-4 border-b border-slate-700 text-center">
-                ಸಮಯವರಗೆ
+                ಬುಕಿಂಗ್ ಸಮಯ
                 </th>
                 <th className="text-black border py-2 px-4 border-b border-slate-700 text-center">
                 ಅಳಿಸಿ

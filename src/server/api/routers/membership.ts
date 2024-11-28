@@ -55,4 +55,57 @@ export const membershipRouter = createTRPCRouter({
       });
       return members ?? [];
     }),
+
+    updateMembership: protectedProcedure
+    .input(
+      z.object({
+        id: z.number().min(1, 'ID is required'),
+        Name: z.string().min(1, 'Name is required'),
+        Address: z.string().min(1, 'Address is required'),
+        Date: z.string().min(1, 'Date is required'),
+        Type: z.enum(["ajeeva","poshaka","mrutha"],),
+        ReceiptNo: z.number().min(1, 'ReceiptNo is required'),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const updatedMembership = await ctx.db.memberships.update({
+        where: { id: input.id },
+        data: {
+          name: input.Name,
+          address: input.Address,
+          date: input.Date,
+          type: input.Type,
+          receiptno: input.ReceiptNo
+        },
+      });
+      return updatedMembership;
+    }),
+
+    updateMembershipwithPhoto: protectedProcedure
+    .input(
+      z.object({
+        id: z.number().min(1, 'ID is required'),
+        Name: z.string().min(1, 'Name is required'),
+        Address: z.string().min(1, 'Address is required'),
+        Date: z.string().min(1, 'Date is required'),
+        Type: z.enum(["ajeeva","poshaka","mrutha"],),
+        ReceiptNo: z.number().min(1, 'ReceiptNo is required'),
+        ImagePath: z.string().min(1, 'ImagePath is required'),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const imageUrl = `https://utfs.io/f/${input.ImagePath}`;
+      const updatedMembership = await ctx.db.memberships.update({
+        where: { id: input.id },
+        data: {
+          name: input.Name,
+          address: input.Address,
+          date: input.Date,
+          type: input.Type,
+          receiptno: input.ReceiptNo,
+          photo: imageUrl
+        },
+      });
+      return updatedMembership;
+    }),
 });
