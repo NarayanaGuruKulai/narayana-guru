@@ -196,6 +196,7 @@ const filteredMembers = members?.filter((member) => {
           <option value="mrutha">ಮೃತ</option>
         </select>
       </div>
+      <p className="mb-4 text-white text-xl"><b>ಒಟ್ಟು ಸದಸ್ಯರು : {filteredMembers.length}</b></p>
 
       {membersLoading ? (
         <div>ಲೋಡ್ ಆಗುತ್ತಿದೆ...</div>
