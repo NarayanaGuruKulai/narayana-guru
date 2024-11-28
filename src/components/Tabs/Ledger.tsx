@@ -148,18 +148,18 @@ const { data: outgoingLedger, refetch: refetchOutgoing } = api.ledger.getAllLedg
           ಹೆಚ್ಚು ತೋರಿಸು
         </button>
 
-      <div className="flex gap-4">
+      <div className="flex md:flex-row flex-col gap-4">
         {/* Incoming Table */}
         <div className="flex-1">
           <h2 className="text-center text-lg font-semibold mb-4">ಆದಾಯ</h2>
-          <table className="w-full border-collapse border border-gray-300">
-            <thead className="bg-white">
+          <table className="w-3/4 border-collapse border border-gray-300">
+            <thead className="bg-white w-3/4">
               <tr>
-                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">ಆದಾಯ ಬಗ್ಗೆ</th>
-                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">ರಶೀದಿ ಸಂಖ್ಯೆ</th>
-                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">ದಿನಾಂಕ</th>
-                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">ಮೊತ್ತ</th>
-                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">ಅಳಿಸು</th>
+                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-sm text-center">ಆದಾಯ ಬಗ್ಗೆ</th>
+                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-sm text-center">ರಶೀದಿ ಸಂಖ್ಯೆ</th>
+                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-sm text-center">ದಿ.</th>
+                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-sm text-center">ಮೊತ್ತ</th>
+                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-sm text-center"><MdDelete /></th>
               </tr>
             </thead>
             <tbody>
@@ -191,9 +191,9 @@ const { data: outgoingLedger, refetch: refetchOutgoing } = api.ledger.getAllLedg
               <tr>
                 <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">ವೆಚ್ಚ ಬಗ್ಗೆ</th>
                 <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">ರಶೀದಿ ಸಂಖ್ಯೆ</th>
-                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">ದಿನಾಂಕ</th>
+                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">ದಿ.</th>
                 <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">ಮೊತ್ತ</th>
-                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center">ಅಳಿಸು</th>
+                <th className="text-black border border-gr py-2 px-4 border-b border-slate-700 text-center"><MdDelete /></th>
               </tr>
             </thead>
             <tbody>
