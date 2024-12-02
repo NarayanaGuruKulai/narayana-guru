@@ -1,4 +1,4 @@
-import { createTRPCRouter, protectedProcedure } from '~/server/api/trpc';
+import { createTRPCRouter,publicProcedure, protectedProcedure } from '~/server/api/trpc';
 import { z } from 'zod';
 
 export const committeeRouter = createTRPCRouter({
@@ -25,7 +25,7 @@ export const committeeRouter = createTRPCRouter({
     }),
 
   // Get All Committee Core
-  getAllCommitteeCore: protectedProcedure.query(async ({ ctx }) => {
+  getAllCommitteeCore: publicProcedure.query(async ({ ctx }) => {
     return await ctx.db.committeeCore.findMany();
   }),
 
@@ -46,7 +46,7 @@ export const committeeRouter = createTRPCRouter({
     }),
 
   // Get All Committee Members
-  getAllCommitteeMembers: protectedProcedure.query(async ({ ctx }) => {
+  getAllCommitteeMembers: publicProcedure.query(async ({ ctx }) => {
     return await ctx.db.committeeMembers.findMany();
   }),
 
