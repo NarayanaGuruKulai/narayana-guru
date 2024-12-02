@@ -37,7 +37,7 @@ const Header: FC = () => {
     <header className="sticky-header h-20 backdrop-blur-sm shadow-md p-4 flex items-center justify-between flex-wrap md:justify-start z-50 w-full bg-black">
       <div className="flex justify-center items-center w-full md:w-auto pl-5  h-full">
           <Image
-            src="https://utfs.io/f/SVkywvr9y613lgyRH7PuQa6o2BxDbV1eOXALdHrw98iEMGWl"
+            src="https://utfs.io/f/SVkywvr9y613Ge3d4VotAgyMXxR0bflucYTpSUB8NDEs4mZ7"
             alt="Logo"
             width={600}
             height={200}

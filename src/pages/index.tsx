@@ -38,7 +38,8 @@ export default function Home() {
             />
           </div>
           <div className="w-full lg:w-1/2 text-center lg:text-left">
-            <h1 className="text-3xl font-bold mb-4 text-center text-white">ಬ್ರಹ್ಮಶ್ರೀ ನಾರಾಯಣ ಗುರು ಸಮಾಜ ಸೇವಾ ಸ೦ಘ (ರಿ) ಕುಳಾಯಿ</h1>
+            <h1 className="text-3xl font-bold text-center text-white">ಬ್ರಹ್ಮಶ್ರೀ ನಾರಾಯಣ ಗುರು ಸಮಾಜ ಸೇವಾ ಸ೦ಘ (ರಿ) ಕುಳಾಯಿ</h1>
+            <h2 className="text-xl font-bold mb-4 text-center text-white">ದಕ್ಷಿಣ ಕನ್ನಡ ಜಿಲ್ಲಾ ರಾಜ್ಯೋತ್ಸವ ಪ್ರಶಸ್ತಿ ಪುರಸ್ಕೃತ </h2>
             <p className="text-white text-center">
               ಮುಂದಾಳತ್ವದಲ್ಲಿ ಬಿಲ್ಲವರ ಯೂನಿಯನ್‌ (ರಿ) ಮ೦ಗಳೂರು ಇದರ ಅಧ್ಯಕ್ಷರಾದ ಶ್ರೀ ದಾಮೋದರ ಆರ್‌. 
               ಸುವರ್ಣರವರ ಮಾರ್ಗದರ್ಶನದೊ೦ದಿಗೆ ದಿನಾ೦ಕ 11-11-1976ರ ಶುಭ ದಿನದಲ್ಲಿ &quot;ಬ್ರಹ್ಮಶ್ರೀ ನಾರಾಯಣ ಗುರು 
