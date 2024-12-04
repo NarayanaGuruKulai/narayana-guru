@@ -19,7 +19,7 @@ const { data: outgoingLedger, refetch: refetchOutgoing } = api.ledger.getAllLedg
     const  deleteLedger = api.ledger.deleteLedger.useMutation();
     const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
     const [selectedLedgerId, setSelectedLedgerId] = useState<number | null>(null);   
-
+    const [isSubmitting, setIsSubmitting] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [date, setDate] = useState<string>("");
 
@@ -107,6 +107,7 @@ const { data: outgoingLedger, refetch: refetchOutgoing } = api.ledger.getAllLedg
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
     try {
       const result = await addLedger.mutateAsync({
         date,
@@ -128,6 +129,8 @@ const { data: outgoingLedger, refetch: refetchOutgoing } = api.ledger.getAllLedg
       toast.success("Ledger entry added successfully", toastStyle);
     } catch {
       toast.error("Error adding ledger entry", toastStyle);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -279,8 +282,9 @@ const { data: outgoingLedger, refetch: refetchOutgoing } = api.ledger.getAllLedg
               <button
                 type="submit"
                 className="w-full bg-blue-600 text-white p-2 rounded "
+                disabled={isSubmitting}
               >
-                ಸಮರ್ಪಿಸಿ
+                 {isSubmitting ? 'ಸಮರ್ಪಿಸುತ್ತಿದೆ...' : 'ಸಮರ್ಪಿಸಿ'}
               </button>
             </form>
           </div>

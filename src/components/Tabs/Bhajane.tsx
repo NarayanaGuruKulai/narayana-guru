@@ -14,6 +14,7 @@ const Bhajane: React.FC = () => {
   const { data: bhajane, refetch } = api.bhajane.getAllBhajane.useQuery({
     limit,
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const toastStyle = {
     style: {
@@ -75,7 +76,7 @@ const handleSubmit = async (e: React.FormEvent) => {
     toast.error("Please enter valid names.", toastStyle);
     return;
   }
-
+  setIsSubmitting(true);
   try {
     // If multiple entries, process and upload each one
     if (nameEntries.length > 1) {
@@ -100,6 +101,8 @@ const handleSubmit = async (e: React.FormEvent) => {
     void refetch();
   } catch {
     toast.error("Error adding Bhajane", toastStyle);
+  } finally {
+    setIsSubmitting(false);
   }
 };
 
@@ -185,8 +188,9 @@ const handleSubmit = async (e: React.FormEvent) => {
               <button
                 type="submit"
                 className="w-full bg-blue-600 text-white p-2 my-2 rounded"
+                disabled={isSubmitting}
               >
-                ಸಮರ್ಪಿಸಿ
+                {isSubmitting ? 'ಸಮರ್ಪಿಸುತ್ತಿದೆ...' : 'ಸಮರ್ಪಿಸಿ'}
               </button>
             </form>
           </div>

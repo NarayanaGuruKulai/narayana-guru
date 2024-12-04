@@ -24,7 +24,7 @@ const HallBooking: React.FC = () => {
   const  deleteHallBooking= api.hallBooking.deleteHallBooking.useMutation();
   const addHallBooking = api.hallBooking.addHallBooking.useMutation();
   const { data: hallBookings, refetch } = api.hallBooking.getAllHallBookings.useQuery({limit});
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const toastStyle = {
     style: {
       borderRadius: "10px",
@@ -53,7 +53,7 @@ const HallBooking: React.FC = () => {
       toast.error("Please fill in all the required fields.", toastStyle);
       return;
     }
-
+    setIsSubmitting(true);
     try {
       const result = await addHallBooking.mutateAsync(formData);
 
@@ -63,6 +63,8 @@ const HallBooking: React.FC = () => {
       toast.success("Hall Booking Added", toastStyle);
     } catch {
       toast.error("Error adding Hall Booking", toastStyle);
+    }  finally {
+      setIsSubmitting(false);
     }
   };
   const handleDeleteConfirm = async () => {
@@ -225,8 +227,10 @@ const HallBooking: React.FC = () => {
                 ಬೆಳಿಗ್ಗೆಯಿಂದ ಸಂಜೆಯವರೆಗೆ</option>
                 <option value="evening_to_night">ಸಂಜೆಯಿಂದ ರಾತ್ರಿ</option>
               </select>
-              <button type="submit" className="w-full bg-blue-600 text-white p-2 my-2 rounded ">
-              ಸಮರ್ಪಿಸಿ
+              <button type="submit" 
+              className="w-full bg-blue-600 text-white p-2 my-2 rounded "
+              disabled={isSubmitting}>
+              {isSubmitting ? 'ಸಮರ್ಪಿಸುತ್ತಿದೆ...' : 'ಸಮರ್ಪಿಸಿ'}
               </button>
             </form>
           </div>

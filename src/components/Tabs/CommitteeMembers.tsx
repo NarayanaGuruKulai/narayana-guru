@@ -10,6 +10,7 @@ const CommitteeMembers: React.FC = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [name, setName] = useState('');
   const [isEditMode, setIsEditMode] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const toastStyle = {
     style: {
       borderRadius: '10px',
@@ -42,6 +43,7 @@ const CommitteeMembers: React.FC = () => {
       toast.error('Please enter a name.', toastStyle);
       return;
     }
+    setIsSubmitting(true);
 
     try {
       if (isEditMode && currentId !== null) {
@@ -62,6 +64,9 @@ const CommitteeMembers: React.FC = () => {
     }
       catch {
         toast.error('Error saving Committee Core', toastStyle);
+      }
+      finally {
+        setIsSubmitting(false);
       }
   };
 
@@ -115,8 +120,10 @@ const CommitteeMembers: React.FC = () => {
                 className="block w-full mb-4 p-2 rounded-md text-black"
                 required
               />
-              <button type="submit"  className="w-full bg-blue-600 text-white p-2 my-2 rounded ">
-              ಸಮರ್ಪಿಸಿ
+              <button type="submit"  className="w-full bg-blue-600 text-white p-2 my-2 rounded "
+              disabled={isSubmitting}
+              >
+               {isSubmitting ? 'ಸಮರ್ಪಿಸುತ್ತಿದೆ...' : 'ಸಮರ್ಪಿಸಿ'}
               </button>
             </form>
           </div>

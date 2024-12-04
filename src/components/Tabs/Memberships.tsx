@@ -27,6 +27,7 @@ const Memberships: React.FC = () => {
     isError: membersError,
     refetch,
   } = api.memberships.getAllMembers.useQuery<Member[]>();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
   
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
@@ -110,7 +111,7 @@ const Memberships: React.FC = () => {
       toast.error('Select and Upload the Image', toastStyle);
       return;
     }
-  
+    setIsSubmitting(true);
     try {
       const memberData = { Name: name, Address: address, Date: date, Type: type, ReceiptNo: receiptno };
       let result;
@@ -144,6 +145,7 @@ const Memberships: React.FC = () => {
     setDate('');
     setReceiptNo(0);
     void refetch();
+    setIsSubmitting(false);
   };
   
 
@@ -307,8 +309,9 @@ const filteredMembers = members?.filter((member) => {
               <button
                 type="submit"
                 className="p-2 border border-gray-300 rounded-lg bg-green-500 text-white font-bold"
+                disabled={isSubmitting}
               >
-                {isEditMode ? 'ಅಪ್‌ಡೇಟ್' : 'ಸಮರ್ಪಿಸಿ'}
+                {isEditMode ? 'ಅಪ್‌ಡೇಟ್' : (isSubmitting ? 'ಸಮರ್ಪಿಸುತ್ತಿದೆ...' : 'ಸಮರ್ಪಿಸಿ')}
               </button>
             </form>
           </div>

@@ -22,7 +22,7 @@ const CommitteeCore: React.FC = () => {
   const [post, setPost] = useState('');
   const [name, setName] = useState('');
   const [currentId, setCurrentId] = useState<number | null>(null);
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const toastStyle = {
     style: {
       borderRadius: '10px',
@@ -69,7 +69,7 @@ const CommitteeCore: React.FC = () => {
       toast.error('Please fill in all fields and upload an image.', toastStyle);
       return;
     }
-
+    setIsSubmitting(true);
     try {
       if (isEditMode && currentId !== null) {
         if(!uploadUrl)
@@ -101,6 +101,9 @@ const CommitteeCore: React.FC = () => {
     } catch {
       toast.error('Error saving Committee Core', toastStyle);
     }
+     finally {
+      setIsSubmitting(false);
+     }
   };
 
   return (
@@ -178,8 +181,11 @@ const CommitteeCore: React.FC = () => {
                 required
               />
               <UploadComponent onUploadComplete={handleUploadComplete} resetUpload={() => setUploadUrl('')} />
-              <button type="submit" className="w-full bg-blue-600 text-white p-2 my-2 rounded">
-                {isEditMode ? 'ಅಪ್‌ಡೇಟ್' : 'ಸಮರ್ಪಿಸಿ'}
+              <button type="submit" 
+              className="w-full bg-blue-600 text-white p-2 my-2 rounded"
+              disabled={isSubmitting}
+              >
+              {isEditMode ? 'ಅಪ್‌ಡೇಟ್' : (isSubmitting ? 'ಸಮರ್ಪಿಸುತ್ತಿದೆ...' : 'ಸಮರ್ಪಿಸಿ')}
               </button>
             </form>
           </div>

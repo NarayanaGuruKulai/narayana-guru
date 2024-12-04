@@ -15,6 +15,7 @@ const Gallery: React.FC = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [uploadUrl, setUploadUrl] = useState<string>(''); // Ensure it's always a string
   const [uploadDate] = useState<string>(new Date().toISOString().split('T')[0] ?? '');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const toastStyle = {
     style: {
       borderRadius: '10px',
@@ -71,7 +72,7 @@ const Gallery: React.FC = () => {
       toast.error('Please upload an image.', toastStyle);
       return;
     }
-
+    setIsSubmitting(true);
     try {
       const result = await addImage.mutateAsync({
         imagePath: uploadUrl,
@@ -86,6 +87,8 @@ const Gallery: React.FC = () => {
     } catch (error) {
       console.error('Error:', error); // Log error to console
       toast.error('Error adding image to gallery', toastStyle);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -156,8 +159,11 @@ const Gallery: React.FC = () => {
               <label className="block mt-5 mb-2 text-white text-left">Upload Image:</label>
               <UploadComponent onUploadComplete={handleUploadComplete} resetUpload={() => setUploadUrl('')} />
 
-              <button type="submit"  className="w-full bg-blue-600 text-white p-2 my-2 rounded ">
-              ಸಮರ್ಪಿಸಿ
+              <button type="submit"  
+              className="w-full bg-blue-600 text-white p-2 my-2 rounded "
+              disabled={isSubmitting}
+              >
+              {isSubmitting ? 'ಸಮರ್ಪಿಸುತ್ತಿದೆ...' : 'ಸಮರ್ಪಿಸಿ'}
               </button>
             </form>
           </div>
