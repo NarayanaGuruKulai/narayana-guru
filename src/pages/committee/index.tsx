@@ -52,7 +52,7 @@ const Committee = () => {
       </h2>
 
       {/* Core Committee Section */}
-      <section className="z-20 py-6 md:py-12 px-4 md:px-6 flex flex-col md:flex-row flex-wrap justify-center gap-6 md:gap-8 items-center">
+      <section className="z-20 py-6 md:py-12 px-4 md:px-6 flex flex-col  md:flex-row flex-wrap justify-center gap-10 md:gap-8 items-center">
         {safeCommitteeCore.map((member) => (
           <CommitteeCard 
             key={member.id}
