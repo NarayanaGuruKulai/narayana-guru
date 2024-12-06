@@ -68,7 +68,7 @@ const handleSubmit = async (e: React.FormEvent) => {
 
   // Regular expression to split input by the numbering pattern (e.g., "1.", "2.", etc.)
   const nameEntries = validName
-    .split(/\d+\./) // Split by one or more digits followed by a period
+    .split(/\d+/)// Split by one or more digits followed by a period
     .map((entry) => entry.trim()) // Trim whitespace from each entry
     .filter((entry) => entry.length > 0); // Remove any empty entries
 
