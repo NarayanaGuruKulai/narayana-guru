@@ -48,7 +48,7 @@ const Committee = () => {
   return (
     <div className="p-6 bg-black min-h-screen">
       <h2 className="text-2xl md:text-5xl text-white text-center mb-8 mt-4 md:mb-4 md:mt-8 z-20">
-      ಸಮಿತಿ
+     ಆಡಳಿತ ಸಮಿತಿ
       </h2>
 
       {/* Core Committee Section */}
