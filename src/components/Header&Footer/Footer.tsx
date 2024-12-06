@@ -2,7 +2,7 @@
 const Footer = () => {
   return (
     <footer className="bg-black text-white text-center py-4 z-50">
-      <p className="text-xs">&copy; Brahmashree Narayana Guru Samaja Seva Sangha Kulai 2025</p>
+      <p className="text-xs">&copy; BNGSSS Kulai 2025 | Website Developed & Managed by Shishir Girish Karkera</p>
     </footer>
   );
 };
