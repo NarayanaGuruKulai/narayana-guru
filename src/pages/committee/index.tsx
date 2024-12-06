@@ -17,7 +17,7 @@ interface CommitteeMember {
 
 const CommitteeCard = ({ name, post, photo }: CardProps) => {
   return (
-    <div className="transform transition-transform hover:rotate-3 hover:scale-105 h-80 w-72 bg-gray-100 rounded-lg shadow-lg p-4">
+    <div className="transform transition-transform hover:rotate-3 hover:scale-105 h-80 w-72 bg-black rounded-lg shadow-lg p-4">
       <div className="relative w-56 h-56 overflow-hidden rounded-md mx-auto mb-4">
         <Image 
           src={photo}  
@@ -27,8 +27,8 @@ const CommitteeCard = ({ name, post, photo }: CardProps) => {
           className="rounded-md transition-transform duration-300 ease-in-out transform hover:scale-110" 
         />
       </div>
-      <h3 className="text-2xl font-bold text-black text-center mb-1">{name}</h3>
-      <p className="text-black text-center text-sm">{post}</p> 
+      <h3 className="text-2xl font-bold text-white text-center mb-1">{name}</h3>
+      <p className="text-white text-center text-sm">{post}</p> 
     </div>
   );
 };
