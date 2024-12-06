@@ -8,6 +8,13 @@ interface CardProps {
   photo: string;
 }
 
+interface CommitteeMember {
+  id: number;
+  Name: string;
+  photo: string;
+}
+
+
 const CommitteeCard = ({ name, post, photo }: CardProps) => {
   return (
     <div className="transform transition-transform hover:rotate-3 hover:scale-105 h-80 w-72 bg-gray-100 rounded-lg shadow-lg p-4">
@@ -28,7 +35,7 @@ const CommitteeCard = ({ name, post, photo }: CardProps) => {
 
 const Committee = () => {
   const { data: committeeCore, isLoading: isCoreLoading, error: coreError } = api.committee.getAllCommitteeCore.useQuery();
-  const { data: committeeMembers, isLoading: isMembersLoading, error: membersError } = api.committee.getAllCommitteeMembers.useQuery();
+  const { data: committeeMembers, isLoading: isMembersLoading, error: membersError } = api.committee.getAllCommitteeMembers.useQuery<CommitteeMember[]>();
 
   if (isCoreLoading || isMembersLoading) return <p>Loading...</p>;
   if (coreError) return <p className="text-white text-center">Error loading core committee members: {coreError?.message}</p>;
@@ -58,15 +65,25 @@ const Committee = () => {
 
       {/* Committee Members Section */}
       <section className="mt-12">
-      <h2 className="text-2xl md:text-5xl text-white text-center mb-8 mt-4 md:mb-4 md:mt-8 z-20">
-      ಸಮಿತಿ ಸದಸ್ಯರು
-      </h2>
-        <ul className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4 text-white text-center">
-          {safeCommitteeMembers.map((member) => (
-            <li key={member.id} className="text-lg mb-2">{member.Name}</li>
-          ))}
-        </ul>
-      </section>
+  <h2 className="text-2xl md:text-5xl text-white text-center mb-8 mt-4 md:mb-4 md:mt-8 z-20">
+    ಸಮಿತಿ ಸದಸ್ಯರು
+  </h2>
+  <ul className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4 text-white text-center">
+    {safeCommitteeMembers.map((member) => (
+      <li key={member.id} className="text-lg mb-2 flex flex-col items-center justify-center">
+        <Image
+          src={member.photo}
+          alt={member.Name}
+          width={100} // Set a reasonable width
+          height={100} // Set a reasonable height
+          className="object-cover mb-2"  // Add margin to space out the photo from the name
+        />
+        <div>{member.Name}</div>  {/* Name is already centered by flex */}
+      </li>
+    ))}
+  </ul>
+</section>
+
 
     </div>
   );
