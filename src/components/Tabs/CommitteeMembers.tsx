@@ -1,16 +1,25 @@
 import React, { useState } from 'react';
 import { api } from '~/utils/api';
 import toast from 'react-hot-toast';
-
+import UploadComponent from '../UploadComponent';
+import Image from 'next/image';
+interface CommitteeMember {
+  id: number; // or number, depending on your data
+  Name: string;
+  photo: string;
+}
 const CommitteeMembers: React.FC = () => {
   const addCommitteeMember = api.committee.addCommitteeMember.useMutation();
-  const updateCommitteeCore = api.committee.updateCommittee.useMutation();
-  const { data: committeeMembers, isLoading, isError, refetch } = api.committee.getAllCommitteeMembers.useQuery();
+  const updateCommitteeMember = api.committee.updateCommittee.useMutation();
+  const updateCommitteeMemberWithPhoto = api.committee.updateCommitteeWithPhoto.useMutation();
+  const { data: committeeMembers, isLoading, isError, refetch } = api.committee.getAllCommitteeMembers.useQuery<CommitteeMember[]>();
   const [currentId, setCurrentId] = useState<number | null>(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [name, setName] = useState('');
   const [isEditMode, setIsEditMode] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [post, setPost] = useState('');
+  const [uploadUrl, setUploadUrl] = useState<string>('');
   const toastStyle = {
     style: {
       borderRadius: '10px',
@@ -18,22 +27,34 @@ const CommitteeMembers: React.FC = () => {
       color: 'white',
     },
   };
-
+  const handleUploadComplete = (url: string) => {
+    setUploadUrl(url); // Update the URL when the image upload is complete
+  };
   
   const handleRowDoubleClick = (id: number, name: string) => {
     setIsPopupOpen(true);
     setIsEditMode(true);
     setName(name);
+    setPost(post);
     setCurrentId(id);
+    setIsEditMode(false);
   };
 
   const handleAddClick = () => {
     setIsPopupOpen(true);
+    setPost('');
+    setName('');
+    setCurrentId(null);
+    setUploadUrl('');
   };
 
   const handlePopupClose = () => {
     setIsPopupOpen(false);
     setName('');
+    setIsEditMode(false);
+    setPost('');
+    setCurrentId(null);
+    setUploadUrl('');
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -47,13 +68,19 @@ const CommitteeMembers: React.FC = () => {
 
     try {
       if (isEditMode && currentId !== null) {
-          const result = await updateCommitteeCore.mutateAsync({ id: currentId, Name: name});
+        if(!uploadUrl){
+          const result = await updateCommitteeMember.mutateAsync({ id: currentId, Name: name});
           console.log('Committee Member updated:', result);
           toast.success('Committee Member Updated');
+        } else{
+          const result = await updateCommitteeMemberWithPhoto.mutateAsync({ id: currentId, Name: name ,Post: post});
+          console.log('Committee Member updated:', result);
+          toast.success('Committee Member Updated');
+        }
         
       } else {
         // Add new committee core
-        const result = await addCommitteeMember.mutateAsync({ Name: name});
+        const result = await addCommitteeMember.mutateAsync({ Name: name , imagePath: uploadUrl ?? null});
         console.log('Committee Member added:', result);
         toast.success('Committee Member Added');
       }
@@ -89,6 +116,7 @@ const CommitteeMembers: React.FC = () => {
           <table className="min-w-full border border-gray-300 ">
             <thead className="bg-white">
               <tr>
+              <th className="text-black border py-2 px-4 border-b border-slate-700 text-center">ಫೋಟೋ</th>
                 <th className="text-black border py-2 px-4 border-b border-slate-700 text-center">ಹೆಸರು</th>
               </tr>
             </thead>
@@ -98,6 +126,15 @@ const CommitteeMembers: React.FC = () => {
                 className="hover:bg-gray-50 hover:text-black"
                 onDoubleClick={() => handleRowDoubleClick(item.id, item.Name)}
                 >
+                <td className="py-2 px-4 border-b border-slate-700 text-center">
+                    <Image
+                      src={item.photo}
+                      alt={item.photo}
+                      width={25}
+                      height={25}
+                      className="h-28 w-28 object-cover"
+                    />
+                  </td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center">{item.Name}</td>
                 </tr>
               ))}
@@ -120,6 +157,7 @@ const CommitteeMembers: React.FC = () => {
                 className="block w-full mb-4 p-2 rounded-md text-black"
                 required
               />
+              <UploadComponent onUploadComplete={handleUploadComplete} resetUpload={() => setUploadUrl('')} />
               <button type="submit"  className="w-full bg-blue-600 text-white p-2 my-2 rounded "
               disabled={isSubmitting}
               >

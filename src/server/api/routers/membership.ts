@@ -20,7 +20,7 @@ export const membershipRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       const imageUrl = input.photo
         ? `https://utfs.io/f/${input.photo}`
-        : "https://utfs.io/f/0yks13NtToBiMOM3L9fzWI7ScAKGqQtv4FT8wMPEHbihruCg";
+        : "https://utfs.io/f/SVkywvr9y613N1L2RBhQUxyAM8K5XHRoeWJzLluYbiBajrh1";
 
       const newMember = await ctx.db.memberships.create({
         data: {

@@ -8,16 +8,18 @@ export const committeeRouter = createTRPCRouter({
       z.object({
         Post: z.string().min(1, 'Post is required'),
         Name: z.string().min(1, 'Name is required'),
-        imagePath: z.string().min(1, "Image URL is required"),
+        imagePath: z.string().optional(),
 
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const imageUrl = `https://utfs.io/f/${input.imagePath}`;
+      const imageUrl = input.imagePath
+      ? `https://utfs.io/f/${input.imagePath}`
+      : 'https://utfs.io/f/SVkywvr9y613N1L2RBhQUxyAM8K5XHRoeWJzLluYbiBajrh1';
       const newCommitteeCore = await ctx.db.committeeCore.create({
         data: {
           Post: input.Post,
-          photo: imageUrl ?? 'https://utfs.io/f/0yks13NtToBiMOM3L9fzWI7ScAKGqQtv4FT8wMPEHbihruCg',  // Use a default image if none is provided
+          photo: imageUrl,  // Use a default image if none is provided
           Name: input.Name,
         },
       });
@@ -31,19 +33,26 @@ export const committeeRouter = createTRPCRouter({
 
   // Add Committee Member
   addCommitteeMember: protectedProcedure
-    .input(
-      z.object({
-        Name: z.string().min(1, 'Name is required'),
-      })
-    )
-    .mutation(async ({ ctx, input }) => {
+  .input(
+    z.object({
+      Name: z.string().min(1, 'Name is required'),
+      imagePath: z.string().optional(), // Make imagePath optional
+    })
+  )
+  .mutation(async ({ ctx, input }) => {
+    // Declare imageUrl outside of the block for correct scope
+    const imageUrl = input.imagePath
+      ? `https://utfs.io/f/${input.imagePath}`
+      : 'https://utfs.io/f/SVkywvr9y613N1L2RBhQUxyAM8K5XHRoeWJzLluYbiBajrh1';
       const newCommitteeMember = await ctx.db.committeeMembers.create({
         data: {
           Name: input.Name,
+          photo: imageUrl, // If 'Post' is meant for the image URL
         },
       });
       return newCommitteeMember;
-    }),
+  }),
+
 
   // Get All Committee Members
   getAllCommitteeMembers: publicProcedure.query(async ({ ctx }) => {
@@ -125,6 +134,25 @@ export const committeeRouter = createTRPCRouter({
         where: { id: input.id },
         data: {
           Name: input.Name,
+        },
+      });
+      return updatedCommitteeCore;
+    }),
+
+    updateCommitteeWithPhoto: protectedProcedure
+    .input(
+      z.object({
+        id: z.number().min(1, 'ID is required'),
+        Name: z.string().min(1, 'Name is required'),
+        Post: z.string().min(1, 'Post is required'),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const updatedCommitteeCore = await ctx.db.committeeMembers.update({
+        where: { id: input.id },
+        data: {
+          Name: input.Name,
+          photo: input.Post,
         },
       });
       return updatedCommitteeCore;
