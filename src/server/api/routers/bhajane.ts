@@ -1,6 +1,7 @@
 import {
   createTRPCRouter,
   protectedProcedure,
+  publicProcedure,
 } from "~/server/api/trpc";
 import { z } from "zod";
 
@@ -39,7 +40,7 @@ export const bhajaneRouter = createTRPCRouter({
     }),
 
 
-    getAllBhajane: protectedProcedure
+    getAllBhajane: publicProcedure
     .input(
       z.object({
         limit: z.number().min(1).default(20),

@@ -54,7 +54,20 @@ export default function Home() {
         {/* Bhajane Section */}
         <section className="flex flex-col lg:flex-row items-center bg-black p-6 rounded-lg shadow-md">
           <div className="w-full lg:w-1/2">
-            <h2 className="text-3xl font-bold  text-center lg:text-center">ಮುಂಬರುವ ಭಜನೆ</h2>
+          <h2 className="text-3xl font-bold text-center lg:text-center">
+              ಮುಂಬರುವ ಭಜನೆ
+              {upcomingBhajanes.length > 0 && upcomingBhajanes[0]?.date && (
+                <span className="block text-xl font-medium text-white mt-2">
+                - {(() => {
+                  const date = new Date(upcomingBhajanes[0].date);
+                  const day = String(date.getDate()).padStart(2, '0'); // Ensure 2-digit day
+                  const month = String(date.getMonth() + 1).padStart(2, '0'); // Ensure 2-digit month
+                  const year = date.getFullYear(); // Get full year
+                  return `${day}-${month}-${year}`;
+                })()}
+              </span>
+              )}
+            </h2>
             <div className='flex justify-center'>
               <Image
               src="https://utfs.io/f/SVkywvr9y613eAMWZCEU9S7NcHYtJhy0unGkQEVimWBIoR8z" // Replace with your image path
@@ -68,7 +81,7 @@ export default function Home() {
               <ul className="list-disc list-inside text-white text-center text-xl">
                 {upcomingBhajanes.map((bhajane, index) => (
                   <li key={index} className="mb-2">
-                    {bhajane.name} - <span className="font-medium">{new Date(bhajane.date).toLocaleDateString()}</span>
+                    {bhajane.name}
                   </li>
                 ))}
               </ul>

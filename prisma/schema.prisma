@@ -138,4 +138,5 @@ model committeeCore {
 model committeeMembers {
     id   Int      @id @default(sequence()) 
     Name    String
+    Post String?
 }
