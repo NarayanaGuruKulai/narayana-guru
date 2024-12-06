@@ -3,6 +3,7 @@ import { api } from '~/utils/api';
 import toast from 'react-hot-toast';
 import UploadComponent from '../UploadComponent';
 import Image from 'next/image';
+import { MdDelete } from 'react-icons/md';
 interface CommitteeMember {
   id: number; // or number, depending on your data
   Name: string;
@@ -19,7 +20,10 @@ const CommitteeMembers: React.FC = () => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [post, setPost] = useState('');
+  const deleteMembers = api.committee.deleteMember.useMutation();
   const [uploadUrl, setUploadUrl] = useState<string>('');
+  const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
+  const [selectedMemberId, setSelectedMemberId] = useState<number | null>(null); 
   const toastStyle = {
     style: {
       borderRadius: '10px',
@@ -56,7 +60,24 @@ const CommitteeMembers: React.FC = () => {
     setCurrentId(null);
     setUploadUrl('');
   };
+  const handleDeleteClick = (id: number) => {
+    setSelectedMemberId(id);
+    setIsDeletePopupOpen(true);
+  };
 
+  const handleDeleteConfirm = async () => {
+    if (!selectedMemberId) return;
+
+    try {
+      await deleteMembers.mutateAsync({ id: selectedMemberId });
+      toast.success('Image deleted successfully', toastStyle);
+      setSelectedMemberId(null);
+      setIsDeletePopupOpen(false);
+      void refetch();
+    } catch {
+      toast.error('Failed to delete the Image', toastStyle);
+    }
+  };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -116,8 +137,9 @@ const CommitteeMembers: React.FC = () => {
           <table className="min-w-full border border-gray-300 ">
             <thead className="bg-white">
               <tr>
-              <th className="text-black border py-2 px-4 border-b border-slate-700 text-center">ಫೋಟೋ</th>
+                <th className="text-black border py-2 px-4 border-b border-slate-700 text-center">ಫೋಟೋ</th>
                 <th className="text-black border py-2 px-4 border-b border-slate-700 text-center">ಹೆಸರು</th>
+                <th className="text-black border py-2 px-4 border-b border-slate-700 text-center">ಅಳಿಸಿ</th>
               </tr>
             </thead>
             <tbody>
@@ -136,6 +158,14 @@ const CommitteeMembers: React.FC = () => {
                     />
                   </td>
                   <td className="py-2 px-4 border-b border-slate-700 text-center">{item.Name}</td>
+                  <td className="py-2 px-4 border-b border-slate-700 text-center">
+                    <button
+                      onClick={() => handleDeleteClick(item.id)}
+                      className="bg-red-500 text-white px-3 py-1 rounded"
+                    >
+                      <MdDelete/>
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -164,6 +194,25 @@ const CommitteeMembers: React.FC = () => {
                {isSubmitting ? 'ಸಮರ್ಪಿಸುತ್ತಿದೆ...' : 'ಸಮರ್ಪಿಸಿ'}
               </button>
             </form>
+          </div>
+        </div>
+      )}
+      {isDeletePopupOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur z-50">
+          <div className="bg-black p-6 rounded shadow-lg text-center">
+            <p className="mb-4">ನೀವು ಅತಿಕ್ರಮಿಸಲು ಇಚ್ಛಿಸುತ್ತಿದ್ದೀರಾ?</p>
+            <button
+              onClick={handleDeleteConfirm}
+              className="bg-red-500 text-white px-4 py-2 rounded mr-2"
+            >
+              ಹೌದು
+            </button>
+            <button
+              onClick={() => setIsDeletePopupOpen(false)}
+              className="bg-gray-300 text-black px-4 py-2 rounded"
+            >
+              ಇಲ್ಲ
+            </button>
           </div>
         </div>
       )}

@@ -157,4 +157,33 @@ export const committeeRouter = createTRPCRouter({
       });
       return updatedCommitteeCore;
     }),
+
+    deleteMember: protectedProcedure
+    .input(
+      z.object({
+        id: z.number().min(1, "Image ID is required"), // ID of the image to delete
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db.committeeMembers.delete({
+        where: { id: input.id },
+      });
+
+      return { message: "Image deleted successfully" };
+    }),
+
+    deleteCore: protectedProcedure
+    .input(
+      z.object({
+        id: z.number().min(1, "Image ID is required"), // ID of the image to delete
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db.committeeCore.delete({
+        where: { id: input.id },
+      });
+
+      return { message: "Image deleted successfully" };
+    }),
+
 });
