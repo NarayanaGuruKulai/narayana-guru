@@ -71,13 +71,16 @@ const Committee = () => {
   <ul className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4 text-white text-center">
     {safeCommitteeMembers.map((member) => (
       <li key={member.id} className="text-lg mb-2 flex flex-col items-center justify-center">
+        <div
+        className='w-100 max-h-100'>
         <Image
           src={member.photo}
           alt={member.Name}
           width={100} // Set a reasonable width
           height={100} // Set a reasonable height
-          className="object-cover mb-2"  // Add margin to space out the photo from the name
+          className="object-cover mb-2 h-32 w-32"  // Add margin to space out the photo from the name
         />
+        </div>
         <div>{member.Name}</div>  {/* Name is already centered by flex */}
       </li>
     ))}
