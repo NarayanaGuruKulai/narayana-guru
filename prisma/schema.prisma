@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-    provider = "cockroachdb"
+    provider = "postgresql"
     // NOTE: When using mysql or sqlserver, uncomment the @db.Text annotations in model Account below
     // Further reading:
     // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
@@ -67,7 +67,7 @@ model VerificationToken {
 }
 
 model memberships {
-    id        Int      @id @default(sequence()) 
+    id        Int      @id @default(autoincrement()) 
     name      String
     address   String?   // Allow null values
     date      String? // Allow null values
@@ -84,7 +84,7 @@ enum MemType {
 }
 
 model ledger {
-    id   Int      @id @default(sequence()) 
+    id   Int      @id @default(autoincrement()) 
     TransactionType TransactionType
     TransactionHeader String
     Amount  Int
@@ -98,13 +98,13 @@ enum TransactionType {
 }
 
 model  bhajane {
-    id   Int      @id @default(sequence()) 
+    id   Int      @id @default(autoincrement()) 
     date String
     name String
 }
 
 model hallBooking {
-    id   Int      @id @default(sequence()) 
+    id   Int      @id @default(autoincrement()) 
     BookingDate String
     BookingType BookingTypes
     BookingNote String
@@ -123,20 +123,20 @@ enum BookingTypes {
 }
 
 model gallery {
-    id   Int      @id @default(sequence()) 
+    id   Int      @id @default(autoincrement()) 
     imagePath   String
     uploadDate  DateTime @default(now())
 }
 
 model committeeCore {
-    id   Int      @id @default(sequence()) 
+    id   Int      @id @default(autoincrement()) 
     Post    String
     Name    String
     photo     String
 }
 
 model committeeMembers {
-    id   Int      @id @default(sequence()) 
+    id   Int      @id @default(autoincrement()) 
     Name    String
     photo String
 }
